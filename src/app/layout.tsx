@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const dmSerif = DM_Serif_Display({
+  variable: "--font-dm-serif",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Skudeneshavn Næringsforening – Fra postkort til powerhouse",
+    default: "Skudeneshavn Næringsforening",
     template: "%s | Skudeneshavn Næringsforening",
   },
   description:
@@ -20,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Skudeneshavn Næringsforening",
     description:
-      "Fra postkort til powerhouse – vi påvirker, kobler og tilrettelegger for Skudeneshavns fremtid.",
+      "Verdensledende verdiskaping i rammen av det gode liv.",
     locale: "nb_NO",
     type: "website",
   },
@@ -32,8 +39,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="no" className={`${geistSans.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">
+    <html
+      lang="no"
+      className={`${dmSans.variable} ${dmSerif.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col font-sans text-navy">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Hva vi jobber med",
@@ -7,203 +8,198 @@ export const metadata: Metadata = {
     "Tre strategiske pilarer: Rammevilkår, attraktivitet og levende sentrum.",
 };
 
+const pilarData = [
+  {
+    id: "01",
+    title: "Rammevilkår for næring og industri",
+    desc: "Vi sikrer at bedriftene har arealene, infrastrukturen og tilgangen de trenger for å vokse og bli værende i Skudeneshavn.",
+    maal: "Næringslivet har tilgang på tomter, infrastruktur og rammevilkår som gjør det attraktivt å etablere, utvide og bli værende. Storamyr 2 realisert innen 5 år.",
+    grupper: "Ressursgruppe A + C",
+    image: "/images/skudeneshavn/sentinel2.jpg",
+    color: "bg-sea-blue",
+    colorLight: "bg-sea-light",
+    dotColor: "bg-sea-blue",
+    tiltak: [
+      "Innspill til arealplaner og kommunale planprosesser",
+      "Dialog med kommune om infrastruktur og tomtebehov",
+      "Pådriver for realisering av Storamyr 2",
+      "Etablering av coworking-hub for fjernarbeidere og gründere",
+      "Rammevilkår for at hovedkontor forblir i Skudeneshavn",
+      "Rekruttering og kompetanseutvikling",
+      "Være talerrør for næringslivet",
+    ],
+  },
+  {
+    id: "02",
+    title: "Attraktivt bosted",
+    desc: "Uten folk, ingen industri. Vi jobber for at Skudeneshavn blir førstevalget for barnefamilier og alle som søker livskvalitet.",
+    maal: "Økt tilflytting. Førstevalg for barnefamilier på Haugalandet. Befolkningsvekst fra 3.500 til 3.800.",
+    grupper: "Ressursgruppe A",
+    image: "/images/skudeneshavn/7.jpg",
+    color: "bg-green",
+    colorLight: "bg-green-light",
+    dotColor: "bg-green",
+    tiltak: [
+      "Sikre skole og barnehage — moderne struktur (0–16 år)",
+      "Nye boligprosjekter: Steiningsholmen, «Tanken», Storamyr 2",
+      "Synliggjøre livskvalitet og bolyst",
+      "Tiltak for økt byggeaktivitet og bedre utnyttelse av tomter",
+      "Bedre tilgjengelighet: pendling, transport, gang/sykkel",
+      "Årlig byggeskikkpris",
+    ],
+  },
+  {
+    id: "03",
+    title: "Levende sentrum hele året",
+    desc: "Et dødt sentrum er dårlig omdømme. Vi profesjonaliserer sentrumsutvikling og skaper helårsaktivitet.",
+    maal: "Liv i sentrum hele året. Maks 2 tomme lokaler. Min. 1 arrangement per måned utenfor høysesong.",
+    grupper: "Ressursgruppe B + D",
+    image: "/images/skudeneshavn/3.jpg",
+    color: "bg-orange",
+    colorLight: "bg-orange-light",
+    dotColor: "bg-orange",
+    tiltak: [
+      "Årshjul med aktiviteter gjennom hele året",
+      "Koordinerte åpningstider og felles kampanjer",
+      "«Nullvisjon for forfall» — dialog med gårdeiere",
+      "Turisme og opplevelsesutvikling",
+      "Sesongforlengelse og flere overnattinger",
+      "Samarbeid med lag, foreninger og kulturaktører",
+      "Kurs, seminarer og nettverksarrangement",
+    ],
+  },
+];
+
 export default function Pilarer() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-navy text-white py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
+      <section className="relative min-h-[50vh] flex items-end overflow-hidden">
+        <Image
+          src="/images/skudeneshavn/8.jpg"
+          alt="Gamle Skudeneshavn"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy/40 to-navy/20" />
+        <div className="relative mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 pb-14 pt-32">
+          <div className="accent-line mb-6" />
+          <h1 className="font-serif text-4xl sm:text-5xl text-white mb-4 animate-fade-in-up">
             Hva vi jobber med
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-            Tre pilarer for Skudeneshavns fremtid
           </h1>
-          <p className="text-white/70 text-lg max-w-2xl">
-            Strategien bygger på tre gjensidig forsterkende pilarer. Sammen
-            skaper de grunnlaget for bosetting, verdiskaping og identitet.
+          <p className="text-white/65 text-lg max-w-lg animate-fade-in-up delay-100">
+            Tre gjensidig forsterkende pilarer som sammen skaper grunnlaget
+            for Skudeneshavns fremtid.
           </p>
         </div>
       </section>
 
-      {/* Pilar 1 */}
-      <section id="pilar-01" className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="bg-sea-light text-sea-blue px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
-                  Pilar 01
-                </span>
-                <span className="text-xs text-navy/40">Ressursgruppe A + C</span>
-              </div>
-              <h2 className="text-3xl font-bold text-navy mb-4">
-                Rammevilkår for næring og industri
-              </h2>
-              <p className="text-navy/70 text-lg mb-6">
-                Vi sikrer at bedriftene har arealene, infrastrukturen og tilgangen
-                de trenger for å vokse og bli værende i Skudeneshavn.
-              </p>
-              <div className="bg-sea-light/50 rounded-lg p-5 mb-6">
-                <p className="font-semibold text-navy text-sm mb-1">Mål</p>
-                <p className="text-navy/70 text-sm">
-                  Næringslivet har tilgang på tomter, infrastruktur og rammevilkår
-                  som gjør det attraktivt å etablere, utvide og bli værende.
-                  Storamyr 2 realisert innen 5 år.
+      {/* Pilarer */}
+      {pilarData.map((pilar, idx) => (
+        <section
+          key={pilar.id}
+          id={`pilar-${pilar.id}`}
+          className={`py-20 ${idx % 2 === 0 ? "bg-white" : "bg-sand-light grain"}`}
+        >
+          <div className={`${idx % 2 !== 0 ? "relative" : ""} mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`}>
+            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ${idx % 2 !== 0 ? "lg:direction-rtl" : ""}`}>
+              {/* Tekst */}
+              <div className={idx % 2 !== 0 ? "lg:order-2" : ""}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`${pilar.color} h-1 w-8 rounded-full opacity-70`} />
+                  <span className="text-xs text-navy/35 font-medium uppercase tracking-wider">
+                    Pilar {pilar.id} &middot; {pilar.grupper}
+                  </span>
+                </div>
+                <h2 className="font-serif text-3xl text-navy mb-4">
+                  {pilar.title}
+                </h2>
+                <p className="text-navy/60 text-[15px] leading-relaxed mb-6">
+                  {pilar.desc}
                 </p>
+                <div className={`${pilar.colorLight} rounded-lg p-5 mb-8`}>
+                  <p className="font-semibold text-navy text-sm mb-1">Mål</p>
+                  <p className="text-navy/60 text-sm leading-relaxed">
+                    {pilar.maal}
+                  </p>
+                </div>
+                <h3 className="font-semibold text-navy text-sm mb-4 uppercase tracking-wider">
+                  Tiltak
+                </h3>
+                <ul className="space-y-2.5">
+                  {pilar.tiltak.map((tiltak, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-3 text-sm text-navy/60"
+                    >
+                      <span
+                        className={`mt-1.5 h-1.5 w-1.5 rounded-full ${pilar.dotColor} shrink-0 opacity-60`}
+                      />
+                      {tiltak}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-            <div className="bg-sand-light rounded-xl p-8">
-              <h3 className="font-bold text-navy mb-4">Konkrete tiltak</h3>
-              <ul className="space-y-3">
-                {[
-                  "Innspill til arealplaner og kommunale planprosesser",
-                  "Dialog med kommune om infrastruktur og tomtebehov",
-                  "Pådriver for realisering av Storamyr 2",
-                  "Etablering av coworking-hub for fjernarbeidere og gründere",
-                  "Rammevilkår for at hovedkontor forblir i Skudeneshavn",
-                  "Rekruttering og kompetanseutvikling",
-                  "Felles stillingsportal for regionen",
-                  "Være talerrør for næringslivet i Skudeneshavn",
-                ].map((tiltak, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-navy/70">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-sea-blue shrink-0" />
-                    {tiltak}
-                  </li>
-                ))}
-              </ul>
+
+              {/* Bilde */}
+              <div
+                className={`relative rounded-xl overflow-hidden aspect-[4/3] ${
+                  idx % 2 !== 0 ? "lg:order-1" : ""
+                }`}
+              >
+                <Image
+                  src={pilar.image}
+                  alt={pilar.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
-      {/* Pilar 2 */}
-      <section id="pilar-02" className="py-20 bg-sand">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="bg-green-light text-green px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
-                  Pilar 02
-                </span>
-                <span className="text-xs text-navy/40">Ressursgruppe A</span>
-              </div>
-              <h2 className="text-3xl font-bold text-navy mb-4">
-                Attraktivt bosted
-              </h2>
-              <p className="text-navy/70 text-lg mb-6">
-                Uten folk, ingen industri. Vi jobber for at Skudeneshavn blir
-                førstevalget for barnefamilier og alle som søker livskvalitet.
-              </p>
-              <div className="bg-green-light/50 rounded-lg p-5 mb-6">
-                <p className="font-semibold text-navy text-sm mb-1">Mål</p>
-                <p className="text-navy/70 text-sm">
-                  Økt tilflytting. Førstevalg for barnefamilier på Haugalandet
-                  og populært utover regionen. Befolkningsvekst fra 3.500 til 3.800.
-                </p>
-              </div>
-            </div>
-            <div className="bg-white rounded-xl p-8">
-              <h3 className="font-bold text-navy mb-4">Konkrete tiltak</h3>
-              <ul className="space-y-3">
-                {[
-                  "Sikre skole og barnehage — moderne struktur (0-16 år)",
-                  "Nye boligprosjekter: Steiningsholmen, «Tanken», Storamyr 2",
-                  "Synliggjøre livskvalitet og bolyst",
-                  "Vurdere tiltak for økt byggeaktivitet",
-                  "Jobbe for bedre tilgjengelighet: pendling, transport, gang/sykkel",
-                  "Skape et rykte om knapphet og vekst",
-                  "Årlig byggeskikkpris til aktører som hever kvaliteten på byen",
-                ].map((tiltak, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-navy/70">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-green shrink-0" />
-                    {tiltak}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pilar 3 */}
-      <section id="pilar-03" className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="bg-orange-light text-orange px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
-                  Pilar 03
-                </span>
-                <span className="text-xs text-navy/40">Ressursgruppe B + D</span>
-              </div>
-              <h2 className="text-3xl font-bold text-navy mb-4">
-                Levende sentrum hele året
-              </h2>
-              <p className="text-navy/70 text-lg mb-6">
-                Et dødt sentrum er dårlig omdømme. Vi profesjonaliserer
-                sentrumsutvikling og skaper helårsaktivitet.
-              </p>
-              <div className="bg-orange-light/50 rounded-lg p-5 mb-6">
-                <p className="font-semibold text-navy text-sm mb-1">Mål</p>
-                <p className="text-navy/70 text-sm">
-                  Liv i sentrum hele året. Maks 2 tomme lokaler. Min. 1
-                  arrangement per måned utenfor høysesong.
-                </p>
-              </div>
-            </div>
-            <div className="bg-sand-light rounded-xl p-8">
-              <h3 className="font-bold text-navy mb-4">Konkrete tiltak</h3>
-              <ul className="space-y-3">
-                {[
-                  "Årshjul med aktiviteter gjennom hele året",
-                  "Koordinerte åpningstider og felles kampanjer",
-                  "«Nullvisjon for forfall» — dialog med gårdeiere",
-                  "Turisme og opplevelsesutvikling",
-                  "Sesongforlengelse og flere overnattinger",
-                  "Samarbeid med lag, foreninger og kulturaktører",
-                  "Se muligheter knyttet til cruise og dagsturister",
-                  "Planlegge og gjennomføre kurs, seminarer og nettverksarrangement",
-                ].map((tiltak, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-navy/70">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-orange shrink-0" />
-                    {tiltak}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Besøk visitskudeneshavn */}
-      <section className="py-12 bg-sand">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-navy/60 mb-4">
-            For turismeinformasjon om Skudeneshavn, se
+      {/* Visit Skudeneshavn */}
+      <section className="py-14 bg-sand grain">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-navy/45 text-sm mb-4">
+            For turismeinformasjon om Skudeneshavn
           </p>
           <a
             href="https://www.visitskudeneshavn.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-md font-semibold hover:bg-navy-light transition-colors"
+            className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded text-sm font-medium hover:bg-navy-light transition-colors"
           >
-            Visit Skudeneshavn &rarr;
+            Visit Skudeneshavn
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+            </svg>
           </a>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-navy text-white text-center">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-4">Vil du bidra?</h2>
-          <p className="text-white/70 mb-8 max-w-xl mx-auto">
-            Bli med og forme Skudeneshavns fremtid. Som medlem kan du engasjere
-            deg i ressursgruppene og være med å påvirke.
+      <section className="relative py-24 overflow-hidden">
+        <Image
+          src="/images/skudeneshavn/9.jpg"
+          alt="Skudeneshavn om kvelden"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-navy/80" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif text-3xl text-white mb-4">
+            Vil du bidra?
+          </h2>
+          <p className="text-white/55 mb-8 max-w-md mx-auto text-[15px]">
+            Bli med og forme fremtiden. Som medlem kan du engasjere deg
+            i ressursgruppene og være med å påvirke.
           </p>
           <Link
             href="/medlemskap"
-            className="bg-gold text-navy px-8 py-3 rounded-md font-semibold hover:bg-gold-light transition-colors"
+            className="bg-gold text-navy px-8 py-3 rounded text-sm font-semibold hover:bg-gold-light transition-colors"
           >
             Bli medlem
           </Link>

@@ -1,98 +1,108 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const pilarer = [
   {
     number: "01",
     title: "Rammevilkår for næring og industri",
     description:
-      "Vi sikrer at bedriftene har arealene, infrastrukturen og tilgangen de trenger for å vokse og bli værende i Skudeneshavn.",
-    color: "bg-sea-light text-sea-blue",
-    borderColor: "border-sea-blue",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
-      </svg>
-    ),
+      "Vi sikrer at bedriftene har arealene, infrastrukturen og tilgangen de trenger for å vokse og bli værende.",
+    image: "/images/skudeneshavn/5.jpg",
+    color: "bg-sea-blue",
   },
   {
     number: "02",
     title: "Attraktivt bosted",
     description:
-      "Uten folk, ingen industri. Vi jobber for at Skudeneshavn blir førstevalget for barnefamilier og alle som søker livskvalitet.",
-    color: "bg-green-light text-green",
-    borderColor: "border-green",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-      </svg>
-    ),
+      "Vi jobber for at Skudeneshavn blir førstevalget for barnefamilier og alle som søker livskvalitet.",
+    image: "/images/skudeneshavn/7.jpg",
+    color: "bg-green",
   },
   {
     number: "03",
     title: "Levende sentrum hele året",
     description:
-      "Et dødt sentrum er dårlig omdømme. Vi profesjonaliserer sentrumsutvikling og skaper helårsaktivitet.",
-    color: "bg-orange-light text-orange",
-    borderColor: "border-orange",
-    icon: (
-      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z" />
-      </svg>
-    ),
+      "Vi skaper helårsaktivitet og profesjonaliserer sentrumsutvikling.",
+    image: "/images/skudeneshavn/3.jpg",
+    color: "bg-orange",
+  },
+];
+
+const arrangementer = [
+  {
+    dato: "Vår 2026",
+    tittel: "Næringslivslunsj — ny strategi presenteres",
+    type: "Medlemsarrangement",
+  },
+  {
+    dato: "Vår 2026",
+    tittel: "Konstituering av ressursgrupper",
+    type: "Internt",
+  },
+  {
+    dato: "2026",
+    tittel: "Frokostmøte: Coworking i Skudeneshavn",
+    type: "Faglig",
   },
 ];
 
 const aktuelt = [
   {
     date: "Januar 2026",
-    title: "Ny strategi vedtatt: «Fra postkort til powerhouse»",
-    excerpt: "Styret vedtok 8. januar den nye strategiplanen som transformerer foreningen til en profesjonell utviklingsmotor.",
+    title: "Ny strategiplan vedtatt",
+    excerpt:
+      "Styret vedtok den nye strategiplanen som transformerer foreningen til en profesjonell utviklingsmotor for Skudeneshavn.",
   },
   {
     date: "2026",
     title: "Fire ressursgrupper etableres",
-    excerpt: "Byutvikling, turisme/handel, næring/industri og kurs/arrangement — vi bygger gjennomføringskraft.",
+    excerpt:
+      "Byutvikling, turisme, næring og arrangement — vi bygger gjennomføringskraft.",
   },
   {
     date: "2026",
     title: "Ny nettside lansert",
-    excerpt: "Skudeneshavn Næringsforening har fått ny nettside som synliggjør foreningens arbeid og ambisjoner.",
+    excerpt:
+      "Skudeneshavn Næringsforening har fått ny nettside for å synliggjøre arbeidet og mobilisere medlemmer.",
   },
 ];
 
 export default function Home() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-navy text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-90" />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
-          <div className="max-w-3xl">
-            <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-4">
-              Skudeneshavn Næringsforening
-            </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6">
-              Fra postkort til{" "}
-              <span className="text-gold">powerhouse</span>
+      {/* ═══ HERO ═══ */}
+      <section className="relative min-h-[85vh] flex items-end overflow-hidden">
+        <Image
+          src="/images/hero/hero_01.jpg"
+          alt="Skudeneshavn — utsikt over havet"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy/50 to-navy/20" />
+
+        <div className="relative mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 pt-32">
+          <div className="max-w-2xl animate-fade-in-up">
+            <div className="accent-line mb-8" />
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white leading-tight mb-6">
+              Verdensledende verdiskaping
+              <br />
+              <span className="text-gold">i rammen av det gode liv</span>
             </h1>
-            <p className="text-lg sm:text-xl text-white/80 leading-relaxed mb-4 max-w-2xl">
-              Skudeneshavn Næringsforening arbeider for å gjøre Skudeneshavn til
-              Karmøys mest attraktive sted for bosetting, næringsliv og besøk.
+            <p className="text-base sm:text-lg text-white/70 leading-relaxed mb-10 max-w-lg">
+              Skudeneshavn Næringsforening arbeider for å gjøre Skudeneshavn
+              til Karmøys mest attraktive sted for bosetting, næringsliv og besøk.
             </p>
-            <p className="text-base text-white/60 italic mb-10 max-w-2xl">
-              «Skudeneshavn — verdensledende verdiskaping i rammen av det gode liv.»
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href="/pilarer"
-                className="bg-gold text-navy px-6 py-3 rounded-md font-semibold text-center hover:bg-gold-light transition-colors"
+                className="bg-gold text-navy px-6 py-3 rounded text-sm font-semibold text-center hover:bg-gold-light transition-colors"
               >
                 Se hva vi jobber med
               </Link>
               <Link
                 href="/medlemskap"
-                className="border-2 border-white/30 text-white px-6 py-3 rounded-md font-semibold text-center hover:bg-white/10 transition-colors"
+                className="border border-white/30 text-white px-6 py-3 rounded text-sm font-medium text-center hover:bg-white/10 transition-colors"
               >
                 Bli medlem
               </Link>
@@ -101,105 +111,191 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Tre roller */}
-      <section className="bg-sand-light py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      {/* ═══ PÅVIRKE / KOBLE / TILRETTELEGGE ═══ */}
+      <section className="py-16 bg-white grain">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {[
-              { verb: "Påvirke", desc: "Vi setter dagsorden overfor kommune og region" },
-              { verb: "Koble", desc: "Vi skaper arenaer der industri, handel og kapital møtes" },
-              { verb: "Tilrettelegge", desc: "Vi driver frem konkrete prosjekter som øker attraktiviteten" },
-            ].map((item) => (
-              <div key={item.verb} className="px-6 py-6">
-                <h3 className="text-navy font-bold text-xl mb-2">{item.verb}</h3>
-                <p className="text-navy/60 text-sm">{item.desc}</p>
+              {
+                verb: "Påvirke",
+                desc: "Vi setter dagsorden overfor kommune og region og er premissleverandør for næringslivet.",
+              },
+              {
+                verb: "Koble",
+                desc: "Vi skaper arenaer der industri, handel, gründere og kapital møtes og finner hverandre.",
+              },
+              {
+                verb: "Tilrettelegge",
+                desc: "Vi driver frem konkrete prosjekter som øker attraktiviteten og skaper resultater.",
+              },
+            ].map((item, i) => (
+              <div
+                key={item.verb}
+                className={`animate-fade-in-up delay-${(i + 1) * 100}`}
+              >
+                <span className="text-gold text-xs font-semibold tracking-widest uppercase">
+                  0{i + 1}
+                </span>
+                <h3 className="font-serif text-2xl text-navy mt-1 mb-3">
+                  {item.verb}
+                </h3>
+                <p className="text-navy/55 text-[15px] leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Strategiske pilarer */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-navy mb-4">
-              Tre strategiske pilarer
-            </h2>
-            <p className="text-navy/60 max-w-2xl mx-auto">
-              Strategien bygger på tre gjensidig forsterkende pilarer som
-              til sammen skal transformere Skudeneshavn.
-            </p>
+      {/* ═══ TRE STRATEGISKE PILARER ═══ */}
+      <section className="py-20 bg-sand-light grain">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-12 gap-4">
+            <div>
+              <span className="text-gold text-xs font-semibold tracking-widest uppercase">
+                Strategi
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-navy mt-1">
+                Tre pilarer for fremtiden
+              </h2>
+            </div>
+            <Link
+              href="/pilarer"
+              className="text-sea-blue text-sm font-medium hover:underline underline-offset-4 shrink-0"
+            >
+              Les mer om pilarene &rarr;
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {pilarer.map((pilar) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {pilarer.map((pilar, i) => (
               <Link
                 key={pilar.number}
                 href={`/pilarer#pilar-${pilar.number}`}
-                className={`group rounded-xl border-l-4 ${pilar.borderColor} bg-white p-8 shadow-sm hover:shadow-md transition-shadow`}
+                className={`group relative rounded-xl overflow-hidden aspect-[4/5] flex flex-col justify-end img-zoom animate-scale-in delay-${
+                  (i + 1) * 100
+                }`}
               >
-                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-lg ${pilar.color} mb-5`}>
-                  {pilar.icon}
+                <Image
+                  src={pilar.image}
+                  alt={pilar.title}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/85 via-navy/30 to-transparent" />
+                <div className="relative p-6 sm:p-7">
+                  <div
+                    className={`${pilar.color} h-1 w-8 rounded-full mb-4 opacity-80`}
+                  />
+                  <span className="text-white/50 text-xs font-medium uppercase tracking-wider">
+                    Pilar {pilar.number}
+                  </span>
+                  <h3 className="font-serif text-xl text-white mt-1 mb-2 group-hover:text-gold transition-colors">
+                    {pilar.title}
+                  </h3>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    {pilar.description}
+                  </p>
                 </div>
-                <span className="text-xs font-semibold text-navy/40 uppercase tracking-wider">
-                  Pilar {pilar.number}
-                </span>
-                <h3 className="text-xl font-bold text-navy mt-1 mb-3 group-hover:text-gold transition-colors">
-                  {pilar.title}
-                </h3>
-                <p className="text-navy/60 text-sm leading-relaxed">
-                  {pilar.description}
-                </p>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Paradokset / Kontekst */}
-      <section className="py-20 bg-sand">
+      {/* ═══ ARRANGEMENTER ═══ */}
+      <section className="py-20 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-navy mb-6">
-              Skudeneshavn-paradokset
-            </h2>
-            <p className="text-lg text-navy/70 leading-relaxed mb-6">
-              Byen huser hovedkontoret til et av verdens største offshorerederier,
-              men sliter med å få gjennomslag for basale infrastrukturtiltak.
-              Vi har global kompetanse, men lokal avmakt.
-            </p>
-            <p className="text-base text-navy/60 italic">
-              «Hvis Skudeneshavn mangler en god skole, byggeklare tomter eller
-              et levende sentrum, taper bedriftene kampen om talentene.»
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-10 gap-4">
+            <div>
+              <span className="text-gold text-xs font-semibold tracking-widest uppercase">
+                Kalender
+              </span>
+              <h2 className="font-serif text-3xl text-navy mt-1">
+                Kommende arrangementer
+              </h2>
+            </div>
+            <Link
+              href="/arrangementer"
+              className="text-sea-blue text-sm font-medium hover:underline underline-offset-4 shrink-0"
+            >
+              Se alle arrangementer &rarr;
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {arrangementer.map((arr, i) => (
+              <Link
+                key={i}
+                href="/arrangementer"
+                className="group border border-navy/8 rounded-xl p-6 hover:border-gold/40 hover:shadow-sm transition-all"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-sand rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-5 h-5 text-navy/40"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-xs text-navy/40 font-medium">
+                      {arr.dato}
+                    </span>
+                    <span className="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded ml-2 font-medium">
+                      {arr.type}
+                    </span>
+                  </div>
+                </div>
+                <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors">
+                  {arr.tittel}
+                </h3>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Aktuelt */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-3xl font-bold text-navy">Aktuelt</h2>
+      {/* ═══ AKTUELT ═══ */}
+      <section className="py-20 bg-sand-light grain">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-10 gap-4">
+            <div>
+              <span className="text-gold text-xs font-semibold tracking-widest uppercase">
+                Nyheter
+              </span>
+              <h2 className="font-serif text-3xl text-navy mt-1">Aktuelt</h2>
+            </div>
             <Link
               href="/aktuelt"
-              className="text-sea-blue font-medium text-sm hover:underline"
+              className="text-sea-blue text-sm font-medium hover:underline underline-offset-4 shrink-0"
             >
               Se alle saker &rarr;
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {aktuelt.map((sak, i) => (
-              <article key={i} className="border border-navy/10 rounded-lg p-6 hover:border-gold/50 transition-colors">
-                <span className="text-xs font-medium text-navy/40 uppercase tracking-wider">
+              <article
+                key={i}
+                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <span className="text-xs text-navy/35 font-medium">
                   {sak.date}
                 </span>
-                <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+                <h3 className="font-serif text-lg text-navy mt-2 mb-3">
                   {sak.title}
                 </h3>
-                <p className="text-sm text-navy/60 leading-relaxed">
+                <p className="text-sm text-navy/55 leading-relaxed">
                   {sak.excerpt}
                 </p>
               </article>
@@ -208,29 +304,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-navy text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Invester i Skudeneshavns fremtid
+      {/* ═══ SAMARBEIDSPARTNERE ═══ */}
+      <section className="py-16 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-xs font-semibold text-navy/30 tracking-widest uppercase mb-10">
+            Hovedsamarbeidspartnere
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="partner-placeholder w-36 h-16 rounded-lg flex items-center justify-center"
+              >
+                <span className="text-xs text-navy/25 font-medium">
+                  Logo {i}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CTA ═══ */}
+      <section className="relative py-24 overflow-hidden">
+        <Image
+          src="/images/skudeneshavn/2.jpg"
+          alt="Skudeneshavn ved solnedgang"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-navy/80" />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif text-3xl sm:text-4xl text-white mb-4">
+            Bli med å forme Skudeneshavns fremtid
           </h2>
-          <p className="text-white/70 max-w-2xl mx-auto mb-4 text-lg">
+          <p className="text-white/60 max-w-lg mx-auto mb-10 text-[15px] leading-relaxed">
             Vi selger ikke et medlemskap. Vi selger en investering i stedets fremtid.
           </p>
-          <p className="text-white/50 max-w-xl mx-auto mb-10">
-            Bolyst gir folk. Helårssentrum gir liv. Arbeidsplasser gir varighet.
-            Sammen gir de: bosetting + verdiskaping + identitet.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/medlemskap"
-              className="bg-gold text-navy px-8 py-3 rounded-md font-semibold hover:bg-gold-light transition-colors"
+              className="bg-gold text-navy px-8 py-3 rounded text-sm font-semibold hover:bg-gold-light transition-colors"
             >
               Bli medlem
             </Link>
             <Link
               href="/kontakt"
-              className="border-2 border-white/30 px-8 py-3 rounded-md font-semibold hover:bg-white/10 transition-colors"
+              className="border border-white/30 text-white px-8 py-3 rounded text-sm font-medium hover:bg-white/10 transition-colors"
             >
               Ta kontakt
             </Link>
