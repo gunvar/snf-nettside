@@ -1,5 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
+import { client } from "@/sanity/client";
+import { ARRANGEMENTER_SISTE_QUERY, NYHETER_SISTE_QUERY } from "@/sanity/queries";
+
+interface SisteArrangement {
+  _id: string;
+  tittel: string;
+  slug: { current: string };
+  dato: string;
+  type: string;
+}
+
+interface SisteNyhet {
+  _id: string;
+  tittel: string;
+  slug: { current: string };
+  dato: string;
+  kategori: string;
+  ingress: string;
+}
 
 const pilarer = [
   {
@@ -28,46 +47,20 @@ const pilarer = [
   },
 ];
 
-const arrangementer = [
-  {
-    dato: "Vår 2026",
-    tittel: "Næringslivslunsj — ny strategi presenteres",
-    type: "Medlemsarrangement",
-  },
-  {
-    dato: "Vår 2026",
-    tittel: "Konstituering av ressursgrupper",
-    type: "Internt",
-  },
-  {
-    dato: "2026",
-    tittel: "Frokostmøte: Coworking i Skudeneshavn",
-    type: "Faglig",
-  },
-];
+export default async function Home() {
+  const [arrangementer, aktuelt] = await Promise.all([
+    client.fetch<SisteArrangement[]>(
+      ARRANGEMENTER_SISTE_QUERY,
+      {},
+      { next: { tags: ["arrangement"] } }
+    ),
+    client.fetch<SisteNyhet[]>(
+      NYHETER_SISTE_QUERY,
+      {},
+      { next: { tags: ["nyhet"] } }
+    ),
+  ]);
 
-const aktuelt = [
-  {
-    date: "Januar 2026",
-    title: "Ny strategiplan vedtatt",
-    excerpt:
-      "Styret vedtok den nye strategiplanen som transformerer foreningen til en profesjonell utviklingsmotor for Skudeneshavn.",
-  },
-  {
-    date: "2026",
-    title: "Fire ressursgrupper etableres",
-    excerpt:
-      "Byutvikling, turisme, næring og arrangement — vi bygger gjennomføringskraft.",
-  },
-  {
-    date: "2026",
-    title: "Ny nettside lansert",
-    excerpt:
-      "Skudeneshavn Næringsforening har fått ny nettside for å synliggjøre arbeidet og mobilisere medlemmer.",
-  },
-];
-
-export default function Home() {
   return (
     <>
       {/* ═══ HERO ═══ */}
@@ -224,44 +217,56 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {arrangementer.map((arr, i) => (
-              <Link
-                key={i}
-                href="/arrangementer"
-                className="group border border-navy/8 rounded-xl p-6 hover:border-gold/40 hover:shadow-sm transition-all"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-sand rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 text-navy/40"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                      />
-                    </svg>
+          {arrangementer.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {arrangementer.map((arr) => (
+                <Link
+                  key={arr._id}
+                  href={`/arrangementer/${arr.slug.current}`}
+                  className="group border border-navy/8 rounded-xl p-6 hover:border-gold/40 hover:shadow-sm transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-sand rounded-lg flex items-center justify-center">
+                      <svg
+                        className="w-5 h-5 text-navy/40"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <span className="text-xs text-navy/40 font-medium">
+                        {new Date(arr.dato).toLocaleDateString("nb-NO", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                      {arr.type && (
+                        <span className="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded ml-2 font-medium">
+                          {arr.type}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-xs text-navy/40 font-medium">
-                      {arr.dato}
-                    </span>
-                    <span className="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded ml-2 font-medium">
-                      {arr.type}
-                    </span>
-                  </div>
-                </div>
-                <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors">
-                  {arr.tittel}
-                </h3>
-              </Link>
-            ))}
-          </div>
+                  <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors">
+                    {arr.tittel}
+                  </h3>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-navy/30 text-sm italic text-center py-6">
+              Ingen kommende arrangementer akkurat nå.
+            </p>
+          )}
         </div>
       </section>
 
@@ -283,24 +288,35 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {aktuelt.map((sak, i) => (
-              <article
-                key={i}
-                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <span className="text-xs text-navy/35 font-medium">
-                  {sak.date}
-                </span>
-                <h3 className="font-serif text-lg text-navy mt-2 mb-3">
-                  {sak.title}
-                </h3>
-                <p className="text-sm text-navy/55 leading-relaxed">
-                  {sak.excerpt}
-                </p>
-              </article>
-            ))}
-          </div>
+          {aktuelt.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {aktuelt.map((sak) => (
+                <Link
+                  key={sak._id}
+                  href={`/aktuelt/${sak.slug.current}`}
+                  className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow block"
+                >
+                  <span className="text-xs text-navy/35 font-medium">
+                    {new Date(sak.dato).toLocaleDateString("nb-NO", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <h3 className="font-serif text-lg text-navy mt-2 mb-3">
+                    {sak.tittel}
+                  </h3>
+                  <p className="text-sm text-navy/55 leading-relaxed">
+                    {sak.ingress}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-navy/30 text-sm italic text-center py-6">
+              Ingen nyheter publisert ennå.
+            </p>
+          )}
         </div>
       </section>
 

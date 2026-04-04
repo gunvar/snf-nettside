@@ -1,44 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { client } from "@/sanity/client";
+import { ARRANGEMENTER_QUERY } from "@/sanity/queries";
 
 export const metadata: Metadata = {
   title: "Arrangementer",
   description: "Kommende arrangementer fra Skudeneshavn Næringsforening.",
 };
 
-const arrangementer = [
-  {
-    dato: "Vår 2026",
-    tittel: "Næringslivslunsj — ny strategi presenteres",
-    beskrivelse:
-      "Vi inviterer alle medlemmer og interesserte til lunsj hvor den nye strategiplanen presenteres og diskuteres.",
-    type: "Medlemsarrangement",
-  },
-  {
-    dato: "Vår 2026",
-    tittel: "Konstituering av ressursgrupper",
-    beskrivelse:
-      "Ressursgruppene A–D konstitueres med ledere og medlemmer. Her kan du melde din interesse og bli med å påvirke.",
-    type: "Internt",
-  },
-  {
-    dato: "2026",
-    tittel: "Frokostmøte: Coworking i Skudeneshavn",
-    beskrivelse:
-      "Mulighetsstudie for en coworking-hub som gjør det mulig å jobbe lokalt uten å pendle.",
-    type: "Faglig",
-  },
-  {
-    dato: "2026",
-    tittel: "Nettverkssamling for næringsdrivende",
-    beskrivelse:
-      "Uformell nettverkssamling for alle næringsdrivende i Skudeneshavn. Bygg kontakter og finn samarbeidspartnere.",
-    type: "Nettverk",
-  },
-];
+interface Arrangement {
+  _id: string;
+  tittel: string;
+  slug: { current: string };
+  dato: string;
+  type: string;
+  sted?: string;
+  beskrivelse: string;
+  pamelding?: boolean;
+  pris?: number;
+}
 
-export default function Arrangementer() {
+export default async function Arrangementer() {
+  const arrangementer = await client.fetch<Arrangement[]>(
+    ARRANGEMENTER_QUERY,
+    {},
+    { next: { tags: ["arrangement"] } }
+  );
+
   return (
     <>
       {/* Hero */}
@@ -73,35 +62,63 @@ export default function Arrangementer() {
             Kommende arrangementer
           </h2>
 
-          <div className="space-y-5">
-            {arrangementer.map((arr, i) => (
-              <div
-                key={i}
-                className="border border-navy/8 rounded-xl p-6 hover:border-gold/30 hover:shadow-sm transition-all flex flex-col sm:flex-row gap-5"
-              >
-                <div className="sm:w-36 shrink-0">
-                  <div className="bg-sand-light rounded-lg px-4 py-3 text-center">
-                    <p className="font-semibold text-navy text-sm">{arr.dato}</p>
+          {arrangementer.length > 0 ? (
+            <div className="space-y-5">
+              {arrangementer.map((arr) => (
+                <Link
+                  key={arr._id}
+                  href={`/arrangementer/${arr.slug.current}`}
+                  className="border border-navy/8 rounded-xl p-6 hover:border-gold/30 hover:shadow-sm transition-all flex flex-col sm:flex-row gap-5 block"
+                >
+                  <div className="sm:w-36 shrink-0">
+                    <div className="bg-sand-light rounded-lg px-4 py-3 text-center">
+                      <p className="font-semibold text-navy text-sm">
+                        {new Date(arr.dato).toLocaleDateString("nb-NO", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </p>
+                      {arr.sted && (
+                        <p className="text-xs text-navy/40 mt-1">{arr.sted}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="flex-1">
-                  <span className="text-xs font-medium text-gold bg-gold/10 px-2 py-0.5 rounded">
-                    {arr.type}
-                  </span>
-                  <h3 className="font-serif text-lg text-navy mt-2 mb-2">
-                    {arr.tittel}
-                  </h3>
-                  <p className="text-sm text-navy/50 leading-relaxed">
-                    {arr.beskrivelse}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-center text-xs text-navy/30 mt-10 italic">
-            Datoer og detaljer annonseres fortløpende.
-          </p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {arr.type && (
+                        <span className="text-xs font-medium text-gold bg-gold/10 px-2 py-0.5 rounded">
+                          {arr.type}
+                        </span>
+                      )}
+                      {arr.pamelding && (
+                        <span className="text-xs font-medium text-green bg-green-light px-2 py-0.5 rounded">
+                          Påmelding åpen
+                        </span>
+                      )}
+                      {arr.pris && arr.pris > 0 && (
+                        <span className="text-xs font-medium text-navy/40">
+                          {arr.pris} kr
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-serif text-lg text-navy mt-2 mb-2">
+                      {arr.tittel}
+                    </h3>
+                    <p className="text-sm text-navy/50 leading-relaxed">
+                      {arr.beskrivelse}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-10">
+              <p className="text-navy/30 text-sm italic">
+                Ingen kommende arrangementer akkurat nå. Kom tilbake snart!
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
