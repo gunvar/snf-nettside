@@ -14,7 +14,7 @@ export default function Footer() {
                 alt="Skudeneshavn Næringsforening"
                 width={48}
                 height={28}
-                className="h-7 w-auto rounded opacity-90"
+                className="h-7 w-auto"
               />
               <div className="text-sm">
                 <span className="text-white/80 font-medium">Skudeneshavn</span>

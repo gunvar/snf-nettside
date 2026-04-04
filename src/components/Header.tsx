@@ -40,7 +40,7 @@ export default function Header() {
               alt="Skudeneshavn Næringsforening"
               width={52}
               height={30}
-              className="h-8 w-auto rounded"
+              className="h-8 w-auto"
             />
             <span className="hidden sm:block text-white/90 text-sm font-medium tracking-wide">
               Skudeneshavn
