@@ -10,11 +10,11 @@ export default function Footer() {
           <div className="md:col-span-4">
             <div className="flex items-center gap-3 mb-5">
               <Image
-                src="/images/logo/Logo Skudeneshavn Næringsforening_v2.PNG"
+                src="/images/logo/snf-logo.png"
                 alt="Skudeneshavn Næringsforening"
                 width={48}
                 height={28}
-                className="h-7 w-auto brightness-0 invert opacity-80"
+                className="h-7 w-auto rounded opacity-90"
               />
               <div className="text-sm">
                 <span className="text-white/80 font-medium">Skudeneshavn</span>

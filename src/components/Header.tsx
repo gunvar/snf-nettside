@@ -36,11 +36,11 @@ export default function Header() {
         <div className="flex h-18 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
-              src="/images/logo/Logo Skudeneshavn Næringsforening_v2.PNG"
+              src="/images/logo/snf-logo.png"
               alt="Skudeneshavn Næringsforening"
               width={52}
               height={30}
-              className="h-8 w-auto brightness-0 invert"
+              className="h-8 w-auto rounded"
             />
             <span className="hidden sm:block text-white/90 text-sm font-medium tracking-wide">
               Skudeneshavn
