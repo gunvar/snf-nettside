@@ -26,7 +26,7 @@ const pilarer = [
     title: "Rammevilkår for næring og industri",
     description:
       "Vi sikrer at bedriftene har arealene, infrastrukturen og tilgangen de trenger for å vokse og bli værende.",
-    image: "/images/skudeneshavn/5.jpg",
+    image: "/images/skudeneshavn/audun_09.jpg",
     color: "bg-sea-blue",
   },
   {
@@ -34,7 +34,7 @@ const pilarer = [
     title: "Attraktivt bosted",
     description:
       "Vi jobber for at Skudeneshavn blir førstevalget for barnefamilier og alle som søker livskvalitet.",
-    image: "/images/skudeneshavn/7.jpg",
+    image: "/images/skudeneshavn/audun_11.jpg",
     color: "bg-green",
   },
   {
@@ -42,7 +42,7 @@ const pilarer = [
     title: "Levende sentrum hele året",
     description:
       "Vi skaper helårsaktivitet og profesjonaliserer sentrumsutvikling.",
-    image: "/images/skudeneshavn/3.jpg",
+    image: "/images/skudeneshavn/sak_03.jpg",
     color: "bg-orange",
   },
 ];
@@ -327,14 +327,19 @@ export default async function Home() {
             Hovedsamarbeidspartnere
           </p>
           <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="partner-placeholder w-36 h-16 rounded-lg flex items-center justify-center"
-              >
-                <span className="text-xs text-navy/25 font-medium">
-                  Logo {i}
-                </span>
+            {[
+              { src: "/images/logo_samarbeidspartnere/solstad-offshore.png", alt: "Solstad Offshore" },
+              { src: "/images/logo_samarbeidspartnere/brodr-olsen.png", alt: "Brødr. Olsen" },
+              { src: "/images/logo_samarbeidspartnere/sponsorer_0014_Layer-1-1.webp", alt: "Samarbeidspartner" },
+            ].map((logo) => (
+              <div key={logo.alt} className="h-12 flex items-center">
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={140}
+                  height={48}
+                  className="object-contain h-10 w-auto opacity-60 hover:opacity-100 transition-opacity"
+                />
               </div>
             ))}
           </div>
@@ -344,7 +349,7 @@ export default async function Home() {
       {/* ═══ CTA ═══ */}
       <section className="relative py-24 overflow-hidden">
         <Image
-          src="/images/skudeneshavn/2.jpg"
+          src="/images/skudeneshavn/sak_02.jpg"
           alt="Skudeneshavn ved solnedgang"
           fill
           className="object-cover"

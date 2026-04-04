@@ -26,7 +26,7 @@ export default async function Aktuelt() {
       {/* Hero */}
       <section className="relative min-h-[45vh] flex items-end overflow-hidden">
         <Image
-          src="/images/skudeneshavn/10.jpg"
+          src="/images/skudeneshavn/audun_24.jpg"
           alt="Skudeneshavn gate"
           fill
           priority

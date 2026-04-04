@@ -33,7 +33,7 @@ export default async function Arrangementer() {
       {/* Hero */}
       <section className="relative min-h-[45vh] flex items-end overflow-hidden">
         <Image
-          src="/images/skudeneshavn/9.jpg"
+          src="/images/skudeneshavn/sak_09.jpg"
           alt="Skudeneshavn havn om kvelden"
           fill
           priority

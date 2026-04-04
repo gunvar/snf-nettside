@@ -35,7 +35,7 @@ const pilarData = [
     desc: "Uten folk, ingen industri. Vi jobber for at Skudeneshavn blir førstevalget for barnefamilier og alle som søker livskvalitet.",
     maal: "Økt tilflytting. Førstevalg for barnefamilier på Haugalandet. Befolkningsvekst fra 3.500 til 3.800.",
     grupper: "Ressursgruppe A",
-    image: "/images/skudeneshavn/7.jpg",
+    image: "/images/skudeneshavn/audun_10.jpg",
     color: "bg-green",
     colorLight: "bg-green-light",
     dotColor: "bg-green",
@@ -54,7 +54,7 @@ const pilarData = [
     desc: "Et dødt sentrum er dårlig omdømme. Vi profesjonaliserer sentrumsutvikling og skaper helårsaktivitet.",
     maal: "Liv i sentrum hele året. Maks 2 tomme lokaler. Min. 1 arrangement per måned utenfor høysesong.",
     grupper: "Ressursgruppe B + D",
-    image: "/images/skudeneshavn/3.jpg",
+    image: "/images/skudeneshavn/sak_03.jpg",
     color: "bg-orange",
     colorLight: "bg-orange-light",
     dotColor: "bg-orange",
@@ -76,7 +76,7 @@ export default function Pilarer() {
       {/* Hero */}
       <section className="relative min-h-[50vh] flex items-end overflow-hidden">
         <Image
-          src="/images/skudeneshavn/8.jpg"
+          src="/images/skudeneshavn/sak_08.jpg"
           alt="Gamle Skudeneshavn"
           fill
           priority
@@ -183,7 +183,7 @@ export default function Pilarer() {
       {/* CTA */}
       <section className="relative py-24 overflow-hidden">
         <Image
-          src="/images/skudeneshavn/9.jpg"
+          src="/images/skudeneshavn/sak_09.jpg"
           alt="Skudeneshavn om kvelden"
           fill
           className="object-cover"

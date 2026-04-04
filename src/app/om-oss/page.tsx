@@ -68,7 +68,7 @@ export default function OmOss() {
       {/* Hero */}
       <section className="relative min-h-[50vh] flex items-end overflow-hidden">
         <Image
-          src="/images/skudeneshavn/1.jpg"
+          src="/images/skudeneshavn/Audun_06.jpg"
           alt="Panorama over Skudeneshavn"
           fill
           priority
@@ -111,7 +111,7 @@ export default function OmOss() {
             </div>
             <div className="relative rounded-xl overflow-hidden aspect-[4/3]">
               <Image
-                src="/images/skudeneshavn/6.jpg"
+                src="/images/skudeneshavn/sak_06.jpg"
                 alt="Kafébrygge i Skudeneshavn"
                 fill
                 className="object-cover"
