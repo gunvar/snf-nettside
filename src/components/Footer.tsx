@@ -94,7 +94,7 @@ export default function Footer() {
 
         <div className="mt-14 pt-8 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/30">
           <p>&copy; {new Date().getFullYear()} Skudeneshavn Næringsforening</p>
-          <p>Verdensledende verdiskaping i rammen av det gode liv</p>
+          <p>Nettside av Gunvar Mjølhus</p>
         </div>
       </div>
     </footer>
