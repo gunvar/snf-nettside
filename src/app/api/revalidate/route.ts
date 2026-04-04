@@ -13,9 +13,9 @@ export async function POST(request: NextRequest) {
     const type = body?._type;
 
     if (type === "nyhet") {
-      revalidateTag("nyhet", "max");
+      revalidateTag("nyhet", { expire: 0 });
     } else if (type === "arrangement") {
-      revalidateTag("arrangement", "max");
+      revalidateTag("arrangement", { expire: 0 });
     }
 
     return NextResponse.json({

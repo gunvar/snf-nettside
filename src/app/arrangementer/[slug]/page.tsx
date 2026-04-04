@@ -21,6 +21,7 @@ interface Arrangement {
   pamelding?: boolean;
   maksAntall?: number;
   pris?: number;
+  prisIkkeMedlem?: number;
 }
 
 export async function generateMetadata({
@@ -144,7 +145,19 @@ export default async function ArrangementPage({
                       Pris
                     </dt>
                     <dd className="text-navy font-medium">
-                      {arr.pris && arr.pris > 0 ? `${arr.pris} kr` : "Gratis"}
+                      {arr.pris && arr.pris > 0 ? (
+                        <>
+                          <span>{arr.pris} kr</span>
+                          <span className="text-navy/40 text-xs ml-1">medlem</span>
+                          {arr.prisIkkeMedlem && arr.prisIkkeMedlem > 0 && (
+                            <>
+                              <br />
+                              <span>{arr.prisIkkeMedlem} kr</span>
+                              <span className="text-navy/40 text-xs ml-1">ikke-medlem</span>
+                            </>
+                          )}
+                        </>
+                      ) : "Gratis"}
                     </dd>
                   </div>
                 </dl>

@@ -64,5 +64,6 @@ export const ARRANGEMENT_SLUG_QUERY = `*[_type == "arrangement" && slug.current 
   pamelding,
   maksAntall,
   pris,
+  prisIkkeMedlem,
   stripePriceId
 }`;

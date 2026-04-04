@@ -80,10 +80,16 @@ export const arrangement = defineType({
     }),
     defineField({
       name: "pris",
-      title: "Pris (kr)",
+      title: "Pris for medlemmer (kr)",
       type: "number",
       description: "0 eller tom = gratis",
       initialValue: 0,
+    }),
+    defineField({
+      name: "prisIkkeMedlem",
+      title: "Pris for ikke-medlemmer (kr)",
+      type: "number",
+      description: "La stå tom hvis kun for medlemmer, eller samme pris",
     }),
     defineField({
       name: "stripePriceId",
