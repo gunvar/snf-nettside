@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
-import { ARRANGEMENTER_QUERY } from "@/sanity/queries";
+import { ARRANGEMENTER_QUERY, ARRANGEMENTER_AVHOLDTE_QUERY } from "@/sanity/queries";
 
 export const metadata: Metadata = {
   title: "Arrangementer",
@@ -19,17 +19,34 @@ interface Arrangement {
   type: string;
   sted?: string;
   beskrivelse: string;
-  bilde?: { asset: unknown };
+  bilde?: { asset: { _id: string; url: string } };
   pamelding?: boolean;
   pris?: number;
 }
 
+interface AvholdtArrangement {
+  _id: string;
+  tittel: string;
+  slug: { current: string };
+  dato: string;
+  type: string;
+  sted?: string;
+  bilde?: { asset: { _id: string; url: string } };
+}
+
 export default async function Arrangementer() {
-  const arrangementer = await client.fetch<Arrangement[]>(
-    ARRANGEMENTER_QUERY,
-    {},
-    { next: { tags: ["arrangement"] } }
-  );
+  const [arrangementer, avholdte] = await Promise.all([
+    client.fetch<Arrangement[]>(
+      ARRANGEMENTER_QUERY,
+      {},
+      { next: { tags: ["arrangement"] } }
+    ),
+    client.fetch<AvholdtArrangement[]>(
+      ARRANGEMENTER_AVHOLDTE_QUERY,
+      {},
+      { next: { tags: ["arrangement"] } }
+    ),
+  ]);
 
   const nesteArr = arrangementer[0];
   const resten = arrangementer.slice(1);
@@ -85,8 +102,8 @@ export default async function Arrangementer() {
                         className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                       />
                     ) : (
-                      <div className="absolute inset-0 bg-sand flex items-center justify-center">
-                        <svg className="w-10 h-10 text-navy/15" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                      <div className="absolute inset-0 bg-navy flex items-center justify-center">
+                        <svg className="w-10 h-10 text-white/10" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
                         </svg>
                       </div>
@@ -139,9 +156,6 @@ export default async function Arrangementer() {
                           minute: "2-digit",
                         })}
                       </span>
-                      {nesteArr.pris && nesteArr.pris > 0 && (
-                        <span>{nesteArr.pris} kr</span>
-                      )}
                     </div>
                     <span className="inline-block mt-6 text-sm font-medium text-navy/40 group-hover:text-gold transition-colors">
                       Les mer &rarr;
@@ -172,13 +186,12 @@ export default async function Arrangementer() {
                                 className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                               />
                             ) : (
-                              <div className="absolute inset-0 bg-sand flex items-center justify-center">
-                                <svg className="w-8 h-8 text-navy/15" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                              <div className="absolute inset-0 bg-navy flex items-center justify-center">
+                                <svg className="w-8 h-8 text-white/10" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
                                 </svg>
                               </div>
                             )}
-                            {/* Datoboks */}
                             <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-2 text-center">
                               <span className="block font-serif text-xl text-navy leading-none">
                                 {d.getDate()}
@@ -188,19 +201,12 @@ export default async function Arrangementer() {
                               </span>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2 flex-wrap mb-2">
-                            {arr.type && (
-                              <span className="text-xs font-medium text-gold bg-gold/10 px-2 py-0.5 rounded">
-                                {arr.type}
-                              </span>
-                            )}
-                            {arr.pamelding && (
-                              <span className="text-xs font-medium text-green bg-green-light px-2 py-0.5 rounded">
-                                Påmelding
-                              </span>
-                            )}
-                          </div>
-                          <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors mb-1">
+                          {arr.type && (
+                            <span className="text-xs font-medium text-gold bg-gold/10 px-2 py-0.5 rounded">
+                              {arr.type}
+                            </span>
+                          )}
+                          <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors mt-1 mb-1">
                             {arr.tittel}
                           </h3>
                           <p className="text-sm text-navy/45 leading-relaxed line-clamp-2">
@@ -247,6 +253,80 @@ export default async function Arrangementer() {
           </div>
         </div>
       </section>
+
+      {/* Visit Skudeneshavn */}
+      <section className="py-14 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-navy/40 text-sm mb-4">
+            For turismeinformasjon og aktiviteter i Skudeneshavn
+          </p>
+          <a
+            href="https://www.visitskudeneshavn.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-medium hover:bg-navy-light transition-colors"
+          >
+            Visit Skudeneshavn
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      {/* Avholdte arrangementer */}
+      {avholdte.length > 0 && (
+        <section className="py-20 bg-sand-light grain">
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
+              Tilbakeblikk
+            </span>
+            <h2 className="font-serif text-3xl text-navy mt-2 mb-10">
+              Avholdte arrangementer
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {avholdte.map((arr) => {
+                const d = new Date(arr.dato);
+                return (
+                  <Link
+                    key={arr._id}
+                    href={`/arrangementer/${arr.slug.current}`}
+                    className="group block"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden bg-navy/5 mb-3">
+                      {arr.bilde?.asset ? (
+                        <Image
+                          src={urlFor(arr.bilde).width(400).height(250).url()}
+                          alt={arr.tittel}
+                          fill
+                          className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-navy flex items-center justify-center">
+                          <svg className="w-6 h-6 text-white/10" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <span className="text-navy/30 text-xs font-medium">
+                      {d.toLocaleDateString("nb-NO", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </span>
+                    <h3 className="font-serif text-[15px] text-navy mt-1 group-hover:text-gold transition-colors">
+                      {arr.tittel}
+                    </h3>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }

@@ -24,7 +24,7 @@ const pilarData = [
       "Dialog med kommune om infrastruktur og tomtebehov",
       "Pådriver for realisering av Storamyr 2",
       "Etablering av coworking-hub for fjernarbeidere og gründere",
-      "Rammevilkår for at hovedkontor forblir i Skudeneshavn",
+      "Sørge for rammevilkår slik at etablerte aktører forblir i Skudeneshavn",
       "Rekruttering og kompetanseutvikling",
       "Være talerrør for næringslivet",
     ],

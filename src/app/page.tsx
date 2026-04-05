@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { ARRANGEMENTER_SISTE_QUERY, NYHETER_SISTE_QUERY } from "@/sanity/queries";
 
 interface SisteArrangement {
@@ -9,6 +10,7 @@ interface SisteArrangement {
   slug: { current: string };
   dato: string;
   type: string;
+  bilde?: { asset: { _id: string; url: string } };
 }
 
 interface SisteNyhet {
@@ -18,6 +20,7 @@ interface SisteNyhet {
   dato: string;
   kategori: string;
   ingress: string;
+  bilde?: { asset: { _id: string; url: string } };
 }
 
 export default async function Home() {
@@ -283,136 +286,148 @@ export default async function Home() {
         <div className="absolute inset-0 bg-navy-dark/30" />
       </section>
 
-      {/* ═══ ARRANGEMENTER + AKTUELT — side om side ═══ */}
-      <section className="py-24 lg:py-32 bg-white">
+      {/* ═══ ARRANGEMENTER — bildekort ═══ */}
+      <section className="py-24 lg:py-28 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">
-            {/* Arrangementer */}
+          <div className="flex items-end justify-between mb-12">
             <div>
-              <div className="flex items-end justify-between mb-10">
-                <div>
-                  <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
-                    Kalender
-                  </span>
-                  <h2 className="font-serif text-2xl sm:text-3xl text-navy mt-1">
-                    Kommende
-                    <br />arrangementer
-                  </h2>
-                </div>
-                <Link
-                  href="/arrangementer"
-                  className="text-navy/40 text-sm font-medium hover:text-navy transition-colors shrink-0"
-                >
-                  Alle &rarr;
-                </Link>
-              </div>
-
-              {arrangementer.length > 0 ? (
-                <div className="divide-y divide-navy/8">
-                  {arrangementer.map((arr) => {
-                    const d = new Date(arr.dato);
-                    return (
-                      <Link
-                        key={arr._id}
-                        href={`/arrangementer/${arr.slug.current}`}
-                        className="group flex gap-5 py-5 first:pt-0 last:pb-0"
-                      >
-                        <div className="shrink-0 w-14 text-center">
-                          <span className="block font-serif text-2xl text-navy leading-none">
-                            {d.getDate()}
-                          </span>
-                          <span className="text-navy/35 text-xs uppercase font-medium">
-                            {d.toLocaleDateString("nb-NO", { month: "short" })}
-                          </span>
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors truncate">
-                            {arr.tittel}
-                          </h3>
-                          {arr.type && (
-                            <span className="text-navy/35 text-xs font-medium">
-                              {arr.type}
-                            </span>
-                          )}
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="text-navy/30 text-sm py-4">
-                  Ingen kommende arrangementer akkurat nå.
-                </p>
-              )}
+              <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
+                Kalender
+              </span>
+              <h2 className="font-serif text-3xl text-navy mt-1">
+                Kommende arrangementer
+              </h2>
             </div>
+            <Link
+              href="/arrangementer"
+              className="text-navy/40 text-sm font-medium hover:text-navy transition-colors shrink-0"
+            >
+              Alle arrangementer &rarr;
+            </Link>
+          </div>
 
-            {/* Aktuelt */}
-            <div>
-              <div className="flex items-end justify-between mb-10">
-                <div>
-                  <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
-                    Nyheter
-                  </span>
-                  <h2 className="font-serif text-2xl sm:text-3xl text-navy mt-1">
-                    Aktuelt
-                  </h2>
-                </div>
-                <Link
-                  href="/aktuelt"
-                  className="text-navy/40 text-sm font-medium hover:text-navy transition-colors shrink-0"
-                >
-                  Alle &rarr;
-                </Link>
-              </div>
-
-              {aktuelt.length > 0 ? (
-                <div className="space-y-8">
-                  {aktuelt.map((sak, i) => (
-                    <Link
-                      key={sak._id}
-                      href={`/aktuelt/${sak.slug.current}`}
-                      className="group block"
-                    >
-                      {i === 0 ? (
-                        <>
-                          <span className="text-navy/30 text-xs font-medium">
-                            {new Date(sak.dato).toLocaleDateString("nb-NO", {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            })}
-                          </span>
-                          <h3 className="font-serif text-2xl text-navy mt-2 mb-3 group-hover:text-gold transition-colors">
-                            {sak.tittel}
-                          </h3>
-                          <p className="text-navy/45 text-[15px] leading-relaxed line-clamp-3">
-                            {sak.ingress}
-                          </p>
-                          <div className="mt-8 h-px bg-navy/8" />
-                        </>
+          {arrangementer.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {arrangementer.map((arr) => {
+                const d = new Date(arr.dato);
+                return (
+                  <Link
+                    key={arr._id}
+                    href={`/arrangementer/${arr.slug.current}`}
+                    className="group block"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden bg-navy/5 mb-4">
+                      {arr.bilde?.asset ? (
+                        <Image
+                          src={urlFor(arr.bilde).width(600).height(375).url()}
+                          alt={arr.tittel}
+                          fill
+                          className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                        />
                       ) : (
-                        <div className="flex items-baseline justify-between gap-4">
-                          <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors truncate">
-                            {sak.tittel}
-                          </h3>
-                          <span className="text-navy/25 text-xs font-medium shrink-0">
-                            {new Date(sak.dato).toLocaleDateString("nb-NO", {
-                              day: "numeric",
-                              month: "short",
-                            })}
-                          </span>
+                        <div className="absolute inset-0 bg-navy flex items-center justify-center">
+                          <svg className="w-10 h-10 text-white/10" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                          </svg>
                         </div>
                       )}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-navy/30 text-sm py-4">
-                  Ingen nyheter publisert ennå.
-                </p>
-              )}
+                      {/* Datoboks */}
+                      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-2 text-center">
+                        <span className="block font-serif text-xl text-navy leading-none">
+                          {d.getDate()}
+                        </span>
+                        <span className="text-navy/50 text-[10px] uppercase font-medium">
+                          {d.toLocaleDateString("nb-NO", { month: "short" })}
+                        </span>
+                      </div>
+                    </div>
+                    {arr.type && (
+                      <span className="text-gold/70 text-xs font-medium">
+                        {arr.type}
+                      </span>
+                    )}
+                    <h3 className="font-serif text-lg text-navy mt-1 group-hover:text-gold transition-colors">
+                      {arr.tittel}
+                    </h3>
+                  </Link>
+                );
+              })}
             </div>
+          ) : (
+            <p className="text-navy/30 text-sm py-4">
+              Ingen kommende arrangementer akkurat nå.
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* ═══ AKTUELT — bildekort ═══ */}
+      <section className="py-24 lg:py-28 bg-sand-light grain">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
+                Nyheter
+              </span>
+              <h2 className="font-serif text-3xl text-navy mt-1">
+                Aktuelt
+              </h2>
+            </div>
+            <Link
+              href="/aktuelt"
+              className="text-navy/40 text-sm font-medium hover:text-navy transition-colors shrink-0"
+            >
+              Alle saker &rarr;
+            </Link>
           </div>
+
+          {aktuelt.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {aktuelt.map((sak) => (
+                <Link
+                  key={sak._id}
+                  href={`/aktuelt/${sak.slug.current}`}
+                  className="group block"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-navy/5 mb-4">
+                    {sak.bilde?.asset ? (
+                      <Image
+                        src={urlFor(sak.bilde).width(600).height(375).url()}
+                        alt={sak.tittel}
+                        fill
+                        className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-navy flex items-center justify-center">
+                        <svg className="w-10 h-10 text-white/10" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-navy/30 text-xs font-medium">
+                    {new Date(sak.dato).toLocaleDateString("nb-NO", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <h3 className="font-serif text-lg text-navy mt-1 group-hover:text-gold transition-colors">
+                    {sak.tittel}
+                  </h3>
+                  {sak.ingress && (
+                    <p className="text-navy/40 text-sm mt-2 leading-relaxed line-clamp-2">
+                      {sak.ingress}
+                    </p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-navy/30 text-sm py-4">
+              Ingen nyheter publisert ennå.
+            </p>
+          )}
         </div>
       </section>
 

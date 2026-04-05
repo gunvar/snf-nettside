@@ -5,7 +5,12 @@ export const NYHETER_QUERY = `*[_type == "nyhet"] | order(dato desc) {
   dato,
   kategori,
   ingress,
-  bilde
+  bilde {
+    asset-> {
+      _id,
+      url
+    }
+  }
 }`;
 
 export const NYHETER_SISTE_QUERY = `*[_type == "nyhet"] | order(dato desc) [0...3] {
@@ -14,7 +19,13 @@ export const NYHETER_SISTE_QUERY = `*[_type == "nyhet"] | order(dato desc) [0...
   slug,
   dato,
   kategori,
-  ingress
+  ingress,
+  bilde {
+    asset-> {
+      _id,
+      url
+    }
+  }
 }`;
 
 export const NYHET_SLUG_QUERY = `*[_type == "nyhet" && slug.current == $slug][0] {
@@ -25,7 +36,12 @@ export const NYHET_SLUG_QUERY = `*[_type == "nyhet" && slug.current == $slug][0]
   kategori,
   ingress,
   innhold,
-  bilde
+  bilde {
+    asset-> {
+      _id,
+      url
+    }
+  }
 }`;
 
 export const ARRANGEMENTER_QUERY = `*[_type == "arrangement" && dato >= now()] | order(dato asc) {
@@ -37,9 +53,29 @@ export const ARRANGEMENTER_QUERY = `*[_type == "arrangement" && dato >= now()] |
   type,
   sted,
   beskrivelse,
-  bilde,
+  bilde {
+    asset-> {
+      _id,
+      url
+    }
+  },
   pamelding,
   pris
+}`;
+
+export const ARRANGEMENTER_AVHOLDTE_QUERY = `*[_type == "arrangement" && dato < now()] | order(dato desc) [0...10] {
+  _id,
+  tittel,
+  slug,
+  dato,
+  type,
+  sted,
+  bilde {
+    asset-> {
+      _id,
+      url
+    }
+  }
 }`;
 
 export const ARRANGEMENTER_SISTE_QUERY = `*[_type == "arrangement" && dato >= now()] | order(dato asc) [0...3] {
@@ -47,7 +83,13 @@ export const ARRANGEMENTER_SISTE_QUERY = `*[_type == "arrangement" && dato >= no
   tittel,
   slug,
   dato,
-  type
+  type,
+  bilde {
+    asset-> {
+      _id,
+      url
+    }
+  }
 }`;
 
 export const ARRANGEMENT_SLUG_QUERY = `*[_type == "arrangement" && slug.current == $slug][0] {
@@ -60,7 +102,12 @@ export const ARRANGEMENT_SLUG_QUERY = `*[_type == "arrangement" && slug.current 
   sted,
   beskrivelse,
   innhold,
-  bilde,
+  bilde {
+    asset-> {
+      _id,
+      url
+    }
+  },
   pamelding,
   maksAntall,
   pris,

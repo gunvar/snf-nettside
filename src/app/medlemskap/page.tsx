@@ -9,6 +9,11 @@ export const metadata: Metadata = {
 
 const kontingenter = [
   {
+    navn: "Privatperson",
+    pris: "300 kr",
+    beskrivelse: "Har ikke stemmerett, men kan delta på arrangementer og møter i regi av Næringsforeningen som medlem",
+  },
+  {
     navn: "Forening",
     pris: "1 000 kr",
     beskrivelse: "Lag, foreninger og frivillige organisasjoner",
