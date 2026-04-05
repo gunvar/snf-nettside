@@ -19,7 +19,7 @@ interface Arrangement {
   type: string;
   sted?: string;
   beskrivelse: string;
-  bilde?: { asset: { _id: string; url: string } };
+  bilde?: { asset: unknown };
   pamelding?: boolean;
   pris?: number;
 }
@@ -31,7 +31,7 @@ interface AvholdtArrangement {
   dato: string;
   type: string;
   sted?: string;
-  bilde?: { asset: { _id: string; url: string } };
+  bilde?: { asset: unknown };
 }
 
 export default async function Arrangementer() {

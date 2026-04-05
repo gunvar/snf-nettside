@@ -10,7 +10,7 @@ interface SisteArrangement {
   slug: { current: string };
   dato: string;
   type: string;
-  bilde?: { asset: { _id: string; url: string } };
+  bilde?: { asset: unknown };
 }
 
 interface SisteNyhet {
@@ -20,7 +20,7 @@ interface SisteNyhet {
   dato: string;
   kategori: string;
   ingress: string;
-  bilde?: { asset: { _id: string; url: string } };
+  bilde?: { asset: unknown };
 }
 
 export default async function Home() {
