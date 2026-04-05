@@ -438,18 +438,18 @@ export default async function Home() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
             {[
-              { src: "/images/logo_samarbeidspartnere/solstad-offshore.png", alt: "Solstad Offshore" },
-              { src: "/images/logo_samarbeidspartnere/brodr-olsen.png", alt: "Brødr. Olsen" },
-              { src: "/images/logo_samarbeidspartnere/unisea.png", alt: "Unisea" },
-              { src: "/images/logo_samarbeidspartnere/sponsorer_0014_Layer-1-1.webp", alt: "Skudenes & Aakra Sparebank" },
+              { src: "/images/logo_samarbeidspartnere/solstad-offshore.png", alt: "Solstad Offshore", h: "h-14" },
+              { src: "/images/logo_samarbeidspartnere/brodr-olsen.png", alt: "Brødr. Olsen", h: "h-14" },
+              { src: "/images/logo_samarbeidspartnere/unisea-clean.png", alt: "Unisea", h: "h-14" },
+              { src: "/images/logo_samarbeidspartnere/sponsorer_0014_Layer-1-1.webp", alt: "Skudenes & Aakra Sparebank", h: "h-[4.2rem]" },
             ].map((logo) => (
-              <div key={logo.alt} className="h-16 flex items-center">
+              <div key={logo.alt} className="h-20 flex items-center">
                 <Image
                   src={logo.src}
                   alt={logo.alt}
-                  width={180}
-                  height={64}
-                  className="object-contain h-14 w-auto brightness-0 invert opacity-50 hover:opacity-90 transition-opacity"
+                  width={200}
+                  height={80}
+                  className={`object-contain ${logo.h} w-auto brightness-0 invert opacity-50 hover:opacity-90 transition-opacity`}
                 />
               </div>
             ))}
