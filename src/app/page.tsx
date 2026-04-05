@@ -103,11 +103,28 @@ export default async function Home() {
                 <br />næringslivet i
                 <br />Skudeneshavn
               </h2>
-              <p className="text-navy/50 leading-relaxed">
-                Skudeneshavn Næringsforening samler over 80 bedrifter og
-                aktører rundt én felles ambisjon: å bygge et lokalsamfunn
-                der næring, kultur og livskvalitet forsterker hverandre.
+              <p className="text-navy/50 leading-relaxed mb-10">
+                Skudeneshavn Næringsforening samler 48 medlemmer fra
+                næringsliv, handel og foreninger rundt én felles ambisjon:
+                å bygge et lokalsamfunn der næring, kultur og livskvalitet
+                forsterker hverandre.
               </p>
+
+              {/* Nøkkeltall */}
+              <div className="flex gap-10">
+                {[
+                  { tall: "48", enhet: "medlemmer" },
+                  { tall: "4 233", enhet: "arbeidsplasser" },
+                  { tall: "4,5 mrd", enhet: "kr i omsetning" },
+                ].map((item) => (
+                  <div key={item.enhet}>
+                    <p className="font-serif text-2xl text-navy leading-none">
+                      {item.tall}
+                    </p>
+                    <p className="text-navy/30 text-xs mt-1">{item.enhet}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Three roles */}

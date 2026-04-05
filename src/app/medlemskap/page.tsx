@@ -7,56 +7,26 @@ export const metadata: Metadata = {
     "Bli medlem i Skudeneshavn Næringsforening — invester i stedets fremtid.",
 };
 
-const nivaaer = [
+const kontingenter = [
   {
-    navn: "Assosiert",
-    pris: "500 kr",
-    malgruppe: "Privatpersoner, lag",
-    fordeler: ["Informasjon og nyhetsbrev", "Tilgang til åpne møter"],
-    stemmerett: false,
+    navn: "Forening",
+    pris: "1 000 kr",
+    beskrivelse: "Lag, foreninger og frivillige organisasjoner",
   },
   {
-    navn: "Grunnmur",
-    pris: "2.500 – 5.000 kr",
-    malgruppe: "Små bedrifter (1–5 ans.)",
-    fordeler: ["Stemmerett", "Nettverk og møteplasser", "Delta i ressursgruppe"],
-    stemmerett: true,
+    navn: "Bedrift",
+    pris: "fra 2 375 kr",
+    beskrivelse: "Varierer etter bedriftens størrelse og rolle",
   },
   {
-    navn: "Vekstbedrift",
-    pris: "10.000 – 15.000 kr",
-    malgruppe: "Mellomstore (6–20 ans.)",
-    fordeler: [
-      "Alt i Grunnmur",
-      "Rabatter på arrangementer",
-      "Alle ressursgrupper",
-      "Vertskap-muligheter",
-    ],
-    stemmerett: true,
-    featured: true,
+    navn: "Butikk med gavekort",
+    pris: "6 000 kr",
+    beskrivelse: "Butikker som deltar i den felles gavekortordningen",
   },
   {
-    navn: "Lokomotiv",
-    pris: "25.000 – 40.000 kr",
-    malgruppe: "Store bedrifter (20+ ans.)",
-    fordeler: [
-      "Alt i Vekstbedrift",
-      "Prioritert profilering",
-      "Direkte dialog med styret",
-    ],
-    stemmerett: true,
-  },
-  {
-    navn: "Strategisk partner",
-    pris: "Særskilt avtale",
-    malgruppe: "Globale aktører",
-    fordeler: [
-      "Strategisk dialog med styret",
-      "Rekrutteringspakke",
-      "Påvirkningskraft",
-      "Omdømmebygging",
-    ],
-    stemmerett: true,
+    navn: "Hovedpartner",
+    pris: "12 000 kr",
+    beskrivelse: "Store bedrifter med strategisk engasjement",
   },
 ];
 
@@ -66,7 +36,7 @@ export default function Medlemskap() {
       {/* Hero */}
       <section className="relative min-h-[45vh] flex items-end overflow-hidden">
         <Image
-          src="/images/skudeneshavn/3n.jpg"
+          src="/images/skudeneshavn/audun_13.jpg"
           alt="Skudeneshavn"
           fill
           priority
@@ -79,42 +49,68 @@ export default function Medlemskap() {
             Medlemskap
           </h1>
           <p className="text-white/65 text-lg max-w-lg animate-fade-in-up delay-100">
-            Invester i stedets fremtid. Bli med og form Skudeneshavns
-            utvikling.
+            En investering i sterkere bedrifter, et mer levende sentrum
+            og et mer attraktivt sted å bo.
           </p>
         </div>
       </section>
 
-      {/* Hvorfor */}
-      <section className="py-20 bg-white">
+      {/* Hovedbudskap */}
+      <section className="py-24 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="text-gold text-xs font-semibold tracking-widest uppercase">
-              Hvorfor bli medlem
-            </span>
-            <h2 className="font-serif text-3xl text-navy mt-2 mb-8">
-              Mer enn et medlemskap
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="w-12 h-0.5 bg-gold mb-8" />
+            <p className="font-serif text-2xl sm:text-3xl text-navy leading-snug mb-8">
+              Medlemskap i Skudeneshavn Næringsforening er en investering
+              i sterkere bedrifter, et mer levende sentrum og et mer
+              attraktivt sted å bo.
+            </p>
+            <p className="text-navy/50 leading-relaxed">
+              Arbeidet til næringsforeningen handler ikke bare om bedriftene.
+              Det handler også om sentrum, møteplasser, handel, trivsel og bolyst.
+              Når næringslivet lykkes, styrkes også grunnlaget for aktivitet,
+              investeringer og et lokalsamfunn flere ønsker å bo i.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Fakta — troverdighet */}
+      <section className="py-20 bg-sand-light grain">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
+                Et fellesskap med tyngde
+              </span>
+              <h2 className="font-serif text-3xl text-navy mt-2 mb-6">
+                Sammen representerer
+                <br />vi mer enn enkeltbedrifter
+              </h2>
+              <p className="text-navy/50 leading-relaxed">
+                Skudeneshavn Næringsforening samler 48 medlemmer fra næringsliv,
+                handel, foreninger og lokalt engasjement. Til sammen representerer
+                medlemsmassen 4 233 arbeidsplasser og over 4,5 milliarder kroner
+                i omsetning. Det gir tyngde når vi jobber for bedre vilkår
+                for bedriftene, et levende sentrum og et mer attraktivt sted å bo.
+              </p>
+            </div>
+
+            {/* Nøkkeltall */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-6">
               {[
-                {
-                  title: "Det angår deg",
-                  desc: "Direkte relevans for din hverdag og din virksomhet.",
-                },
-                {
-                  title: "Du får noe igjen",
-                  desc: "Konkret verdi — ikke bare «feel good».",
-                },
-                {
-                  title: "Det lønner seg",
-                  desc: "Større gevinst ved å være med enn å stå utenfor.",
-                },
+                { tall: "48", enhet: "medlemmer", desc: "fra næringsliv, handel og foreninger" },
+                { tall: "4 233", enhet: "arbeidsplasser", desc: "representert i medlemsmassen" },
+                { tall: "4,5", enhet: "mrd. kr", desc: "i samlet omsetning" },
               ].map((item) => (
-                <div key={item.title} className="bg-sand-light rounded-xl p-6">
-                  <h3 className="font-semibold text-navy mb-2 text-[15px]">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-navy/50 leading-relaxed">
+                <div key={item.enhet} className="text-center lg:text-left">
+                  <p className="font-serif text-4xl text-navy leading-none">
+                    {item.tall}
+                  </p>
+                  <p className="text-gold/70 text-sm font-medium mt-1">
+                    {item.enhet}
+                  </p>
+                  <p className="text-navy/35 text-xs mt-2 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -124,130 +120,122 @@ export default function Medlemskap() {
         </div>
       </section>
 
-      {/* Nivåer */}
-      <section className="py-20 bg-sand-light grain">
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-gold text-xs font-semibold tracking-widest uppercase">
-              Nivåer
-            </span>
-            <h2 className="font-serif text-3xl text-navy mt-2">
-              Finn ditt nivå
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {nivaaer.map((nivaa) => (
-              <div
-                key={nivaa.navn}
-                className={`bg-white rounded-xl p-6 shadow-sm relative ${
-                  nivaa.featured ? "ring-2 ring-gold/30" : ""
-                }`}
-              >
-                {nivaa.featured && (
-                  <span className="absolute -top-2.5 left-6 bg-gold text-navy text-[11px] font-semibold px-3 py-0.5 rounded-full">
-                    Populær
-                  </span>
-                )}
-                <h3 className="font-serif text-xl text-navy mb-1">
-                  {nivaa.navn}
-                </h3>
-                <p className="text-gold font-semibold mb-1">{nivaa.pris}</p>
-                <p className="text-xs text-navy/35 mb-5">{nivaa.malgruppe}</p>
-                <ul className="space-y-2 mb-5">
-                  {nivaa.fordeler.map((fordel, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-sm text-navy/60"
-                    >
-                      <svg
-                        className="w-4 h-4 mt-0.5 text-green/60 shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m4.5 12.75 6 6 9-13.5"
-                        />
-                      </svg>
-                      {fordel}
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-xs text-navy/30">
-                  {nivaa.stemmerett
-                    ? "Stemmerett på årsmøtet"
-                    : "Ingen stemmerett"}
-                </p>
-              </div>
-            ))}
+      {/* To perspektiver */}
+      <section className="py-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            {/* Bedriftseier */}
+            <div>
+              <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
+                For bedriftseiere
+              </span>
+              <h3 className="font-serif text-2xl text-navy mt-2 mb-5">
+                Invester i grunnlaget
+                <br />for egen vekst
+              </h3>
+              <p className="text-navy/50 leading-relaxed mb-6">
+                Som medlem investerer du ikke bare i egen virksomhet.
+                Du investerer i et sterkere Skudeneshavn. Når vi jobber for
+                bedre rammevilkår, flere møteplasser, et mer levende sentrum
+                og økt attraktivitet for familier og tilflytting, styrker det
+                også grunnlaget for handel, rekruttering og vekst.
+              </p>
+              <p className="text-navy/40 text-sm leading-relaxed">
+                Medlemskap gir deg en stemme i utviklingen av stedet
+                bedriften din er en del av.
+              </p>
+            </div>
+
+            {/* Privatperson */}
+            <div>
+              <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
+                For privatpersoner og ildsjeler
+              </span>
+              <h3 className="font-serif text-2xl text-navy mt-2 mb-5">
+                Bidra til et bedre
+                <br />lokalsamfunn
+              </h3>
+              <p className="text-navy/50 leading-relaxed mb-6">
+                Du trenger ikke eie en bedrift for å bry deg om utviklingen
+                i Skudeneshavn. Et levende sentrum, flere møteplasser, sterkere
+                lokalt næringsliv og økt attraktivitet for nye innbyggere
+                kommer hele lokalsamfunnet til gode.
+              </p>
+              <p className="text-navy/40 text-sm leading-relaxed">
+                Vil du ha et mer levende sentrum, flere møteplasser og et mer
+                attraktivt Skudeneshavn? Da er medlemskap en konkret måte å bidra på.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Bli medlem skjema */}
-      <section id="bli-medlem" className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-xl mx-auto">
-            <div className="text-center mb-10">
-              <span className="text-gold text-xs font-semibold tracking-widest uppercase">
-                Innmelding
+      {/* Kontingent */}
+      <section className="py-20 bg-sand-light grain">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-14">
+              <span className="text-gold/70 text-xs font-semibold tracking-widest uppercase">
+                Kontingent
               </span>
-              <h2 className="font-serif text-3xl text-navy mt-2 mb-3">
-                Bli medlem
+              <h2 className="font-serif text-3xl text-navy mt-2 mb-4">
+                Medlemsnivåer
               </h2>
-              <p className="text-navy/45 text-sm">
-                Fyll ut skjemaet, så tar vi kontakt for å finne riktig nivå.
+              <p className="text-navy/45 text-[15px] leading-relaxed max-w-lg mx-auto">
+                Vi har medlemsnivåer tilpasset både bedrifter, foreninger
+                og enkeltpersoner som ønsker å bidra til utviklingen av
+                Skudeneshavn.
               </p>
             </div>
-            <form className="space-y-5">
-              {[
-                { id: "bedrift", label: "Bedrift / Organisasjon", type: "text", placeholder: "Navn på bedrift" },
-                { id: "kontakt", label: "Kontaktperson", type: "text", placeholder: "Ditt navn" },
-                { id: "epost", label: "E-post", type: "email", placeholder: "din@epost.no" },
-                { id: "telefon", label: "Telefon", type: "tel", placeholder: "+47" },
-              ].map((field) => (
-                <div key={field.id}>
-                  <label
-                    htmlFor={field.id}
-                    className="block text-sm font-medium text-navy/70 mb-1.5"
-                  >
-                    {field.label}
-                  </label>
-                  <input
-                    type={field.type}
-                    id={field.id}
-                    name={field.id}
-                    className="w-full rounded-lg border border-navy/12 px-4 py-3 text-sm focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-colors"
-                    placeholder={field.placeholder}
-                  />
+
+            <div className="space-y-4">
+              {kontingenter.map((k) => (
+                <div
+                  key={k.navn}
+                  className="bg-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                >
+                  <div>
+                    <h3 className="font-semibold text-navy text-[15px]">
+                      {k.navn}
+                    </h3>
+                    <p className="text-navy/40 text-sm mt-0.5">
+                      {k.beskrivelse}
+                    </p>
+                  </div>
+                  <p className="text-navy font-serif text-xl shrink-0">
+                    {k.pris}
+                  </p>
                 </div>
               ))}
-              <div>
-                <label
-                  htmlFor="melding"
-                  className="block text-sm font-medium text-navy/70 mb-1.5"
-                >
-                  Melding (valgfritt)
-                </label>
-                <textarea
-                  id="melding"
-                  name="melding"
-                  rows={3}
-                  className="w-full rounded-lg border border-navy/12 px-4 py-3 text-sm focus:border-gold focus:ring-1 focus:ring-gold outline-none resize-none transition-colors"
-                  placeholder="Fortell gjerne litt om bedriften og hva du ønsker å bidra med"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-gold text-navy py-3 rounded-lg font-semibold hover:bg-gold-light transition-colors text-sm"
-              >
-                Send innmelding
-              </button>
-            </form>
+            </div>
+
+            <p className="text-center text-navy/30 text-xs mt-6">
+              Kontingenten avhenger av bedriftens størrelse og rolle.
+              Ta kontakt for å finne riktig nivå.
+            </p>
           </div>
+        </div>
+      </section>
+
+      {/* Innmelding — mailto */}
+      <section id="bli-medlem" className="py-24 bg-navy-dark">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif text-3xl sm:text-4xl text-white mb-4">
+            Klar for å bli med?
+          </h2>
+          <p className="text-white/40 max-w-md mx-auto mb-10 leading-relaxed">
+            Send oss en e-post med navn, bedrift og eventuell melding.
+            Vi tar kontakt for å finne riktig medlemsnivå.
+          </p>
+          <a
+            href="mailto:Skude.nf@gmail.com?subject=Innmelding%20i%20Skudeneshavn%20N%C3%A6ringsforening"
+            className="inline-block bg-gold text-navy px-10 py-4 text-sm font-semibold uppercase tracking-wider hover:bg-gold-light transition-colors"
+          >
+            Send e-post
+          </a>
+          <p className="text-white/20 text-xs mt-6">
+            Skude.nf@gmail.com
+          </p>
         </div>
       </section>
     </>

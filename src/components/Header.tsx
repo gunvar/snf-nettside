@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 
 const navigation = [
-  { name: "Hjem", href: "/" },
   { name: "Om oss", href: "/om-oss" },
   { name: "Hva vi jobber med", href: "/pilarer" },
   { name: "Aktuelt", href: "/aktuelt" },
@@ -26,42 +25,48 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled || mobileMenuOpen
-          ? "bg-navy/95 backdrop-blur-md shadow-lg"
+          ? "bg-navy-dark/95 backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-18 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 shrink-0">
+        <div className="flex h-20 items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 shrink-0 group">
             <Image
               src="/images/logo/snf-logo.png"
               alt="Skudeneshavn Næringsforening"
-              width={52}
-              height={30}
-              className="h-8 w-auto"
+              width={44}
+              height={26}
+              className="h-7 w-auto"
             />
-            <span className="hidden sm:block text-white/90 text-sm font-medium tracking-wide">
-              Skudeneshavn
-              <span className="text-gold ml-1 font-normal">Næringsforening</span>
-            </span>
+            <div className="hidden sm:block text-[13px] leading-tight">
+              <span className="text-white/80 font-medium tracking-wide">
+                Skudeneshavn
+              </span>
+              <br />
+              <span className="text-gold/60 text-[11px] tracking-widest uppercase">
+                Næringsforening
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden lg:flex lg:items-center lg:gap-0.5">
+          <div className="hidden lg:flex lg:items-center lg:gap-1">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="px-3 py-2 text-[13px] font-medium text-white/70 hover:text-white transition-colors rounded"
+                className="px-3.5 py-2 text-[13px] text-white/55 hover:text-white transition-colors tracking-wide"
               >
                 {item.name}
               </Link>
             ))}
             <Link
-              href="/medlemskap#bli-medlem"
-              className="ml-4 bg-gold/90 text-navy px-5 py-2 rounded text-[13px] font-semibold hover:bg-gold transition-colors"
+              href="/medlemskap"
+              className="ml-6 bg-gold text-navy px-5 py-2 text-[12px] font-semibold uppercase tracking-wider hover:bg-gold-light transition-colors"
             >
               Bli medlem
             </Link>
@@ -70,7 +75,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className="lg:hidden p-2 text-white/70 hover:text-white transition-colors"
+            className="lg:hidden p-2 text-white/60 hover:text-white transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Meny"
           >
@@ -88,21 +93,21 @@ export default function Header() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-white/10 pb-6 pt-3 animate-fade-in">
-            <div className="flex flex-col gap-0.5">
+          <div className="lg:hidden pb-8 pt-4 animate-fade-in">
+            <div className="flex flex-col gap-1">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="px-3 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5 rounded transition-colors"
+                  className="px-2 py-3 text-[15px] text-white/60 hover:text-white border-b border-white/5 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
               <Link
-                href="/medlemskap#bli-medlem"
-                className="mt-3 bg-gold/90 text-navy px-4 py-2.5 rounded text-sm font-semibold text-center hover:bg-gold transition-colors"
+                href="/medlemskap"
+                className="mt-6 bg-gold text-navy px-6 py-3 text-[13px] font-semibold text-center uppercase tracking-wider hover:bg-gold-light transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Bli medlem

@@ -102,8 +102,8 @@ export default function Pilarer() {
           id={`pilar-${pilar.id}`}
           className={`py-20 ${idx % 2 === 0 ? "bg-white" : "bg-sand-light grain"}`}
         >
-          <div className={`${idx % 2 !== 0 ? "relative" : ""} mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`}>
-            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ${idx % 2 !== 0 ? "lg:direction-rtl" : ""}`}>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* Tekst */}
               <div className={idx % 2 !== 0 ? "lg:order-2" : ""}>
                 <div className="flex items-center gap-3 mb-4">
@@ -144,7 +144,7 @@ export default function Pilarer() {
 
               {/* Bilde */}
               <div
-                className={`relative rounded-xl overflow-hidden aspect-[4/3] ${
+                className={`relative overflow-hidden aspect-[4/3] ${
                   idx % 2 !== 0 ? "lg:order-1" : ""
                 }`}
               >

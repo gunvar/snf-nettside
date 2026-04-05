@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Om oss",
@@ -103,13 +102,29 @@ export default function OmOss() {
                 — gjennom profesjonelt påvirkningsarbeid, strategisk nettverksbygging
                 og koordinert stedsutvikling.
               </blockquote>
-              <p className="text-navy/55 text-[15px] leading-relaxed">
+              <p className="text-navy/55 text-[15px] leading-relaxed mb-8">
                 Skudeneshavn har alle forutsetninger for å bli det mest attraktive
                 stedet å bo og drive virksomhet på Karmøy. Med en ny strategisk
                 retning jobber vi målrettet for å realisere dette potensialet.
               </p>
+
+              {/* Nøkkeltall */}
+              <div className="flex gap-10 pt-6 border-t border-navy/8">
+                {[
+                  { tall: "48", enhet: "medlemmer" },
+                  { tall: "4 233", enhet: "arbeidsplasser" },
+                  { tall: "4,5 mrd", enhet: "kr i omsetning" },
+                ].map((item) => (
+                  <div key={item.enhet}>
+                    <p className="font-serif text-2xl text-navy leading-none">
+                      {item.tall}
+                    </p>
+                    <p className="text-navy/30 text-xs mt-1">{item.enhet}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="relative rounded-xl overflow-hidden aspect-[4/3]">
+            <div className="relative overflow-hidden aspect-[4/3]">
               <Image
                 src="/images/skudeneshavn/sak_06.jpg"
                 alt="Kafébrygge i Skudeneshavn"
