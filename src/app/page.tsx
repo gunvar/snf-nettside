@@ -68,7 +68,7 @@ export default async function Home() {
             </h1>
             <p className="text-white/60 text-lg leading-relaxed max-w-md mb-12">
               Vi forener næring, kultur og kystidentitet for å gjøre
-              Skudeneshavn til Karmøys sterkeste sted.
+              Skudeneshavn til Karmøys mest attraktive sted.
             </p>
             <div className="flex items-center gap-5">
               <Link
@@ -103,7 +103,6 @@ export default async function Home() {
               <div className="w-12 h-0.5 bg-gold mb-8" />
               <h2 className="font-serif text-3xl sm:text-4xl text-navy leading-snug mb-6">
                 Stemmen for
-                <br />næringslivet i
                 <br />Skudeneshavn
               </h2>
               <p className="text-navy/50 leading-relaxed mb-10">
@@ -190,17 +189,17 @@ export default async function Home() {
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/95 via-navy-dark/50 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
-                <div className="h-1 w-10 bg-sea-blue/80 rounded-full mb-4" />
-                <span className="text-white/40 text-xs font-medium uppercase tracking-wider">
+                <div className="h-1 w-10 bg-sea-blue rounded-full mb-4" />
+                <span className="text-white/70 text-xs font-semibold uppercase tracking-wider">
                   Pilar 01
                 </span>
                 <h3 className="font-serif text-2xl sm:text-3xl text-white mt-1 group-hover:text-gold transition-colors">
                   Rammevilkår for
                   <br />næring og industri
                 </h3>
-                <p className="text-white/50 text-sm mt-3 max-w-sm leading-relaxed">
+                <p className="text-white/70 text-sm mt-3 max-w-sm leading-relaxed">
                   Vi sikrer at bedriftene har arealene, infrastrukturen
                   og tilgangen de trenger for å vokse og bli værende.
                 </p>
@@ -219,16 +218,16 @@ export default async function Home() {
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/95 via-navy-dark/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="h-1 w-10 bg-green/80 rounded-full mb-3" />
-                  <span className="text-white/40 text-xs font-medium uppercase tracking-wider">
+                  <div className="h-1 w-10 bg-green rounded-full mb-3" />
+                  <span className="text-white/70 text-xs font-semibold uppercase tracking-wider">
                     Pilar 02
                   </span>
                   <h3 className="font-serif text-xl text-white mt-1 group-hover:text-gold transition-colors">
                     Attraktivt bosted
                   </h3>
-                  <p className="text-white/50 text-sm mt-2 max-w-xs leading-relaxed">
+                  <p className="text-white/70 text-sm mt-2 max-w-xs leading-relaxed">
                     Vi jobber for at Skudeneshavn blir førstevalget for
                     barnefamilier og alle som søker livskvalitet.
                   </p>
@@ -245,16 +244,16 @@ export default async function Home() {
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/95 via-navy-dark/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="h-1 w-10 bg-orange/80 rounded-full mb-3" />
-                  <span className="text-white/40 text-xs font-medium uppercase tracking-wider">
+                  <div className="h-1 w-10 bg-orange rounded-full mb-3" />
+                  <span className="text-white/70 text-xs font-semibold uppercase tracking-wider">
                     Pilar 03
                   </span>
                   <h3 className="font-serif text-xl text-white mt-1 group-hover:text-gold transition-colors">
                     Levende sentrum hele året
                   </h3>
-                  <p className="text-white/50 text-sm mt-2 max-w-xs leading-relaxed">
+                  <p className="text-white/70 text-sm mt-2 max-w-xs leading-relaxed">
                     Vi skaper helårsaktivitet og profesjonaliserer
                     sentrumsutvikling.
                   </p>
@@ -432,24 +431,25 @@ export default async function Home() {
       </section>
 
       {/* ═══ SAMARBEIDSPARTNERE ═══ */}
-      <section className="py-14 bg-sand-light border-t border-navy/5">
+      <section className="py-16 bg-navy-dark">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-xs font-medium text-navy/25 tracking-widest uppercase mb-8">
+          <p className="text-center text-[11px] font-medium text-white/25 tracking-widest uppercase mb-10">
             Hovedsamarbeidspartnere
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
             {[
               { src: "/images/logo_samarbeidspartnere/solstad-offshore.png", alt: "Solstad Offshore" },
               { src: "/images/logo_samarbeidspartnere/brodr-olsen.png", alt: "Brødr. Olsen" },
-              { src: "/images/logo_samarbeidspartnere/sponsorer_0014_Layer-1-1.webp", alt: "Samarbeidspartner" },
+              { src: "/images/logo_samarbeidspartnere/unisea.png", alt: "Unisea" },
+              { src: "/images/logo_samarbeidspartnere/sponsorer_0014_Layer-1-1.webp", alt: "Skudenes & Aakra Sparebank" },
             ].map((logo) => (
-              <div key={logo.alt} className="h-12 flex items-center">
+              <div key={logo.alt} className="h-16 flex items-center">
                 <Image
                   src={logo.src}
                   alt={logo.alt}
-                  width={140}
-                  height={48}
-                  className="object-contain h-10 w-auto opacity-50 hover:opacity-100 transition-opacity"
+                  width={180}
+                  height={64}
+                  className="object-contain h-14 w-auto brightness-0 invert opacity-50 hover:opacity-90 transition-opacity"
                 />
               </div>
             ))}
