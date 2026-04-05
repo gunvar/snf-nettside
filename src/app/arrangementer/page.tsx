@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { ARRANGEMENTER_QUERY } from "@/sanity/queries";
 
 export const metadata: Metadata = {
@@ -14,9 +15,11 @@ interface Arrangement {
   tittel: string;
   slug: { current: string };
   dato: string;
+  sluttdato?: string;
   type: string;
   sted?: string;
   beskrivelse: string;
+  bilde?: { asset: unknown };
   pamelding?: boolean;
   pris?: number;
 }
@@ -27,6 +30,9 @@ export default async function Arrangementer() {
     {},
     { next: { tags: ["arrangement"] } }
   );
+
+  const nesteArr = arrangementer[0];
+  const resten = arrangementer.slice(1);
 
   return (
     <>
@@ -58,59 +64,154 @@ export default async function Arrangementer() {
           <span className="text-gold text-xs font-semibold tracking-widest uppercase">
             Kalender
           </span>
-          <h2 className="font-serif text-3xl text-navy mt-2 mb-10">
+          <h2 className="font-serif text-3xl text-navy mt-2 mb-12">
             Kommende arrangementer
           </h2>
 
           {arrangementer.length > 0 ? (
-            <div className="space-y-5">
-              {arrangementer.map((arr) => (
+            <div className="space-y-16">
+              {/* Neste arrangement — fremhevet */}
+              {nesteArr && (
                 <Link
-                  key={arr._id}
-                  href={`/arrangementer/${arr.slug.current}`}
-                  className="border border-navy/8 rounded-xl p-6 hover:border-gold/30 hover:shadow-sm transition-all flex flex-col sm:flex-row gap-5 block"
+                  href={`/arrangementer/${nesteArr.slug.current}`}
+                  className="group grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
                 >
-                  <div className="sm:w-36 shrink-0">
-                    <div className="bg-sand-light rounded-lg px-4 py-3 text-center">
-                      <p className="font-semibold text-navy text-sm">
-                        {new Date(arr.dato).toLocaleDateString("nb-NO", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                      </p>
-                      {arr.sted && (
-                        <p className="text-xs text-navy/40 mt-1">{arr.sted}</p>
-                      )}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-sand-light">
+                    {nesteArr.bilde?.asset ? (
+                      <Image
+                        src={urlFor(nesteArr.bilde).width(800).height(500).url()}
+                        alt={nesteArr.tittel}
+                        fill
+                        className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-sand flex items-center justify-center">
+                        <svg className="w-10 h-10 text-navy/15" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                        </svg>
+                      </div>
+                    )}
+                    {/* Datoboks over bildet */}
+                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2.5 text-center">
+                      <span className="block font-serif text-2xl text-navy leading-none">
+                        {new Date(nesteArr.dato).getDate()}
+                      </span>
+                      <span className="text-navy/50 text-xs uppercase font-medium">
+                        {new Date(nesteArr.dato).toLocaleDateString("nb-NO", { month: "short" })}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {arr.type && (
-                        <span className="text-xs font-medium text-gold bg-gold/10 px-2 py-0.5 rounded">
-                          {arr.type}
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap mb-4">
+                      {nesteArr.type && (
+                        <span className="text-xs font-medium text-gold bg-gold/10 px-2.5 py-1 rounded">
+                          {nesteArr.type}
                         </span>
                       )}
-                      {arr.pamelding && (
-                        <span className="text-xs font-medium text-green bg-green-light px-2 py-0.5 rounded">
+                      {nesteArr.pamelding && (
+                        <span className="text-xs font-medium text-green bg-green-light px-2.5 py-1 rounded">
                           Påmelding åpen
                         </span>
                       )}
-                      {arr.pris && arr.pris > 0 && (
-                        <span className="text-xs font-medium text-navy/40">
-                          {arr.pris} kr
+                    </div>
+                    <h3 className="font-serif text-2xl sm:text-3xl text-navy mb-4 group-hover:text-gold transition-colors">
+                      {nesteArr.tittel}
+                    </h3>
+                    <p className="text-navy/50 leading-relaxed mb-4 line-clamp-3">
+                      {nesteArr.beskrivelse}
+                    </p>
+                    <div className="flex items-center gap-4 text-sm text-navy/35">
+                      {nesteArr.sted && (
+                        <span className="flex items-center gap-1.5">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                          </svg>
+                          {nesteArr.sted}
                         </span>
                       )}
+                      <span className="flex items-center gap-1.5">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        {new Date(nesteArr.dato).toLocaleTimeString("nb-NO", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                      {nesteArr.pris && nesteArr.pris > 0 && (
+                        <span>{nesteArr.pris} kr</span>
+                      )}
                     </div>
-                    <h3 className="font-serif text-lg text-navy mt-2 mb-2">
-                      {arr.tittel}
-                    </h3>
-                    <p className="text-sm text-navy/50 leading-relaxed">
-                      {arr.beskrivelse}
-                    </p>
+                    <span className="inline-block mt-6 text-sm font-medium text-navy/40 group-hover:text-gold transition-colors">
+                      Les mer &rarr;
+                    </span>
                   </div>
                 </Link>
-              ))}
+              )}
+
+              {/* Resten i kortgrid med bilder */}
+              {resten.length > 0 && (
+                <>
+                  <div className="h-px bg-navy/8" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {resten.map((arr) => {
+                      const d = new Date(arr.dato);
+                      return (
+                        <Link
+                          key={arr._id}
+                          href={`/arrangementer/${arr.slug.current}`}
+                          className="group block"
+                        >
+                          <div className="relative aspect-[16/10] overflow-hidden bg-sand-light mb-4">
+                            {arr.bilde?.asset ? (
+                              <Image
+                                src={urlFor(arr.bilde).width(600).height(375).url()}
+                                alt={arr.tittel}
+                                fill
+                                className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 bg-sand flex items-center justify-center">
+                                <svg className="w-8 h-8 text-navy/15" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                                </svg>
+                              </div>
+                            )}
+                            {/* Datoboks */}
+                            <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-2 text-center">
+                              <span className="block font-serif text-xl text-navy leading-none">
+                                {d.getDate()}
+                              </span>
+                              <span className="text-navy/50 text-[10px] uppercase font-medium">
+                                {d.toLocaleDateString("nb-NO", { month: "short" })}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap mb-2">
+                            {arr.type && (
+                              <span className="text-xs font-medium text-gold bg-gold/10 px-2 py-0.5 rounded">
+                                {arr.type}
+                              </span>
+                            )}
+                            {arr.pamelding && (
+                              <span className="text-xs font-medium text-green bg-green-light px-2 py-0.5 rounded">
+                                Påmelding
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="font-serif text-lg text-navy group-hover:text-gold transition-colors mb-1">
+                            {arr.tittel}
+                          </h3>
+                          <p className="text-sm text-navy/45 leading-relaxed line-clamp-2">
+                            {arr.beskrivelse}
+                          </p>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </div>
           ) : (
             <div className="text-center py-10">
