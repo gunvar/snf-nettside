@@ -169,9 +169,20 @@ export default function Medlemskap() {
                 lokalt næringsliv og økt attraktivitet for nye innbyggere
                 kommer hele lokalsamfunnet til gode.
               </p>
-              <p className="text-navy/40 text-sm leading-relaxed">
+              <p className="text-navy/40 text-sm leading-relaxed mb-6">
                 Vil du ha et mer levende sentrum, flere møteplasser og et mer
                 attraktivt Skudeneshavn? Da er medlemskap en konkret måte å bidra på.
+              </p>
+              <a
+                href="https://qr.vipps.no/28/2/05/031/586326"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#ff5b24] text-white px-6 py-3 text-sm font-semibold hover:bg-[#e54d1d] transition-colors"
+              >
+                Meld deg inn med Vipps — 300 kr
+              </a>
+              <p className="text-navy/25 text-xs mt-3">
+                Vipps #586326
               </p>
             </div>
           </div>
@@ -200,9 +211,9 @@ export default function Medlemskap() {
               {kontingenter.map((k) => (
                 <div
                   key={k.navn}
-                  className="bg-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  className="bg-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 >
-                  <div>
+                  <div className="flex-1">
                     <h3 className="font-semibold text-navy text-[15px]">
                       {k.navn}
                     </h3>
@@ -210,9 +221,21 @@ export default function Medlemskap() {
                       {k.beskrivelse}
                     </p>
                   </div>
-                  <p className="text-navy font-serif text-xl shrink-0">
-                    {k.pris}
-                  </p>
+                  <div className="flex items-center gap-4 shrink-0">
+                    <p className="text-navy font-serif text-xl">
+                      {k.pris}
+                    </p>
+                    {k.navn === "Privatperson" && (
+                      <a
+                        href="https://qr.vipps.no/28/2/05/031/586326"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-[#ff5b24] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#e54d1d] transition-colors"
+                      >
+                        Betal med Vipps
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
