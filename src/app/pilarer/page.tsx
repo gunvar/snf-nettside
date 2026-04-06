@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import PhotoCredit from "@/components/PhotoCredit";
 
 export const metadata: Metadata = {
   title: "Hva vi jobber med",
@@ -157,6 +158,9 @@ export default function Pilarer() {
                   fill
                   className="object-cover"
                 />
+                {pilar.image.includes("sak_") && (
+                  <PhotoCredit photographer="Svein Arthur Kallevik" />
+                )}
               </div>
             </div>
           </div>

@@ -115,6 +115,17 @@ export default function Footer() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
                   </svg>
                 </a>
+                <a
+                  href="https://www.facebook.com/detgodeliviskudeneshavn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white/50 transition-colors inline-flex items-center gap-1"
+                >
+                  Det gode liv i Skudeneshavn
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>

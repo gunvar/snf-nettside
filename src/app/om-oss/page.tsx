@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import PhotoCredit from "@/components/PhotoCredit";
 
 export const metadata: Metadata = {
   title: "Om oss",
@@ -134,6 +135,7 @@ export default function OmOss() {
                 fill
                 className="object-cover"
               />
+              <PhotoCredit photographer="Svein Arthur Kallevik" />
             </div>
           </div>
         </div>
