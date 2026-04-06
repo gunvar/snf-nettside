@@ -173,17 +173,14 @@ export default function Medlemskap() {
                 Vil du ha et mer levende sentrum, flere møteplasser og et mer
                 attraktivt Skudeneshavn? Da er medlemskap en konkret måte å bidra på.
               </p>
-              <a
-                href="https://qr.vipps.no/28/2/05/031/586326"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#ff5b24] text-white px-6 py-3 text-sm font-semibold hover:bg-[#e54d1d] transition-colors"
-              >
-                Meld deg inn med Vipps — 300 kr
-              </a>
-              <p className="text-navy/25 text-xs mt-3">
-                Vipps #586326
-              </p>
+              <div className="bg-sand-light p-5 inline-block">
+                <p className="text-navy font-semibold text-sm mb-1">
+                  Meld deg inn med Vipps
+                </p>
+                <p className="text-navy/50 text-sm">
+                  Søk opp <span className="font-semibold text-navy">#586326</span> i Vipps og betal 300 kr
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -227,16 +224,11 @@ export default function Medlemskap() {
                     </p>
                     {k.navn === "Privatperson" && (
                       <div className="mt-3">
-                        <a
-                          href="https://qr.vipps.no/28/2/05/031/586326"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block bg-[#ff5b24] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#e54d1d] transition-colors"
-                        >
-                          Betal med Vipps
-                        </a>
-                        <p className="text-navy/30 text-xs mt-1.5">
+                        <p className="text-[#ff5b24] text-xs font-semibold">
                           Vipps #586326
+                        </p>
+                        <p className="text-navy/30 text-[11px] mt-0.5">
+                          Søk opp nummeret i Vipps
                         </p>
                       </div>
                     )}
