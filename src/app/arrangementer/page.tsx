@@ -288,41 +288,36 @@ export default async function Arrangementer() {
               Avholdte arrangementer
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {avholdte.map((arr) => {
                 const d = new Date(arr.dato);
                 return (
                   <Link
                     key={arr._id}
                     href={`/arrangementer/${arr.slug.current}`}
-                    className="group block"
+                    className="group flex items-start gap-4 py-4 border-b border-navy/8 last:border-b-0"
                   >
-                    <div className="relative aspect-[16/10] overflow-hidden bg-navy/5 mb-3">
-                      {arr.bilde?.asset ? (
-                        <Image
-                          src={urlFor(arr.bilde).width(400).height(250).url()}
-                          alt={arr.tittel}
-                          fill
-                          className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 bg-navy flex items-center justify-center">
-                          <svg className="w-6 h-6 text-white/10" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                          </svg>
-                        </div>
+                    <div className="shrink-0 w-14 text-center pt-0.5">
+                      <span className="block font-serif text-2xl text-navy leading-none">
+                        {d.getDate()}
+                      </span>
+                      <span className="text-navy/35 text-[10px] uppercase font-medium">
+                        {d.toLocaleDateString("nb-NO", { month: "short" })}
+                      </span>
+                      <span className="block text-navy/20 text-[10px]">
+                        {d.getFullYear()}
+                      </span>
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-serif text-[15px] text-navy group-hover:text-gold transition-colors">
+                        {arr.tittel}
+                      </h3>
+                      {arr.type && (
+                        <span className="text-navy/30 text-xs">
+                          {arr.type}
+                        </span>
                       )}
                     </div>
-                    <span className="text-navy/30 text-xs font-medium">
-                      {d.toLocaleDateString("nb-NO", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </span>
-                    <h3 className="font-serif text-[15px] text-navy mt-1 group-hover:text-gold transition-colors">
-                      {arr.tittel}
-                    </h3>
                   </Link>
                 );
               })}
