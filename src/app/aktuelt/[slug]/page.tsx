@@ -75,7 +75,7 @@ export default async function NyhetPage({
           </Link>
           <div className="flex items-center gap-3 mb-4">
             <span className="text-white/50 text-xs font-medium">
-              {new Date(nyhet.dato).toLocaleDateString("nb-NO", {
+              {new Date(nyhet.dato).toLocaleDateString("nb-NO", { timeZone: "Europe/Oslo",
                 day: "numeric",
                 month: "long",
                 year: "numeric",

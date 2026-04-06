@@ -117,7 +117,7 @@ export default async function Arrangementer() {
                         {new Date(nesteArr.dato).getDate()}
                       </span>
                       <span className="text-navy/50 text-xs uppercase font-medium">
-                        {new Date(nesteArr.dato).toLocaleDateString("nb-NO", { month: "short" })}
+                        {new Date(nesteArr.dato).toLocaleDateString("nb-NO", { month: "short", timeZone: "Europe/Oslo" })}
                       </span>
                     </div>
                   </div>
@@ -157,6 +157,7 @@ export default async function Arrangementer() {
                         {new Date(nesteArr.dato).toLocaleTimeString("nb-NO", {
                           hour: "2-digit",
                           minute: "2-digit",
+                          timeZone: "Europe/Oslo",
                         })}
                       </span>
                     </div>
@@ -200,7 +201,7 @@ export default async function Arrangementer() {
                                 {d.getDate()}
                               </span>
                               <span className="text-navy/50 text-[10px] uppercase font-medium">
-                                {d.toLocaleDateString("nb-NO", { month: "short" })}
+                                {d.toLocaleDateString("nb-NO", { month: "short", timeZone: "Europe/Oslo" })}
                               </span>
                             </div>
                           </div>
@@ -302,7 +303,7 @@ export default async function Arrangementer() {
                         {d.getDate()}
                       </span>
                       <span className="text-navy/35 text-[10px] uppercase font-medium">
-                        {d.toLocaleDateString("nb-NO", { month: "short" })}
+                        {d.toLocaleDateString("nb-NO", { month: "short", timeZone: "Europe/Oslo" })}
                       </span>
                       <span className="block text-navy/20 text-[10px]">
                         {d.getFullYear()}

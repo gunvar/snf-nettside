@@ -84,6 +84,7 @@ export default async function Aktuelt() {
                           day: "numeric",
                           month: "long",
                           year: "numeric",
+                          timeZone: "Europe/Oslo",
                         })}
                       </span>
                       {forsteSak.kategori && (
@@ -136,6 +137,7 @@ export default async function Aktuelt() {
                               day: "numeric",
                               month: "long",
                               year: "numeric",
+                              timeZone: "Europe/Oslo",
                             })}
                           </span>
                           {nyhet.kategori && (

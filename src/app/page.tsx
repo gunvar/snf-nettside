@@ -338,7 +338,7 @@ export default async function Home() {
                           {d.getDate()}
                         </span>
                         <span className="text-navy/50 text-[10px] uppercase font-medium">
-                          {d.toLocaleDateString("nb-NO", { month: "short" })}
+                          {d.toLocaleDateString("nb-NO", { month: "short", timeZone: "Europe/Oslo" })}
                         </span>
                       </div>
                     </div>
@@ -411,6 +411,7 @@ export default async function Home() {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
+                      timeZone: "Europe/Oslo",
                     })}
                   </span>
                   <h3 className="font-serif text-lg text-navy mt-1 group-hover:text-gold transition-colors">

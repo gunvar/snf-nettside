@@ -63,11 +63,13 @@ export default async function ArrangementPage({
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: "Europe/Oslo",
   });
 
   const tidFormatert = new Date(arr.dato).toLocaleTimeString("nb-NO", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Europe/Oslo",
   });
 
   return (
