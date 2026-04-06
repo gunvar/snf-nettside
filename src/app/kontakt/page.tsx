@@ -4,6 +4,9 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "Kontakt",
   description: "Ta kontakt med Skudeneshavn Næringsforening.",
+  openGraph: {
+    images: [{ url: "https://www.skudenesnf.no/images/skudeneshavn/audun_15.jpg", width: 1200, height: 630 }],
+  },
 };
 
 export default function Kontakt() {

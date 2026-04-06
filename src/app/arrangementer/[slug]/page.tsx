@@ -34,7 +34,14 @@ export async function generateMetadata({
     slug,
   });
   if (!arr) return { title: "Ikke funnet" };
-  return { title: arr.tittel, description: arr.beskrivelse };
+  const ogImages = arr.bilde?.asset
+    ? [{ url: urlFor(arr.bilde).width(1200).height(630).url(), width: 1200, height: 630 }]
+    : [{ url: "https://www.skudenesnf.no/images/hero/hero_01.jpg", width: 1200, height: 630 }];
+  return {
+    title: arr.tittel,
+    description: arr.beskrivelse,
+    openGraph: { images: ogImages },
+  };
 }
 
 export default async function ArrangementPage({

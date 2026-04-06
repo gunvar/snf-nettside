@@ -31,6 +31,14 @@ export const metadata: Metadata = {
       "Verdensledende verdiskaping i rammen av det gode liv.",
     locale: "nb_NO",
     type: "website",
+    images: [
+      {
+        url: "https://www.skudenesnf.no/images/hero/hero_01.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Skudeneshavn — utsikt over havet",
+      },
+    ],
   },
 };
 

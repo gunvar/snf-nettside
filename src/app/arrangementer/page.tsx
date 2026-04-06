@@ -8,6 +8,9 @@ import { ARRANGEMENTER_QUERY, ARRANGEMENTER_AVHOLDTE_QUERY } from "@/sanity/quer
 export const metadata: Metadata = {
   title: "Arrangementer",
   description: "Kommende arrangementer fra Skudeneshavn Næringsforening.",
+  openGraph: {
+    images: [{ url: "https://www.skudenesnf.no/images/skudeneshavn/sak_09.jpg", width: 1200, height: 630 }],
+  },
 };
 
 interface Arrangement {

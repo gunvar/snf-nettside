@@ -54,7 +54,7 @@ export default async function Home() {
         </div>
 
         {/* Content — left-aligned editorial block */}
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-screen flex flex-col justify-end pb-20 pt-32 lg:pb-28">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-screen flex flex-col justify-center pb-20 pt-32 sm:justify-end lg:pb-28">
           <div className="max-w-xl">
             <p className="text-gold/80 text-sm font-medium tracking-widest uppercase mb-6">
               Skudeneshavn Næringsforening
@@ -62,7 +62,9 @@ export default async function Home() {
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1] mb-8">
               Verdensledende
               <br />
-              verdiskaping i rammen
+              verdiskaping
+              <br className="sm:hidden" />
+              {" "}i rammen
               <br />
               <span className="text-gold">av det gode liv</span>
             </h1>
@@ -467,7 +469,7 @@ export default async function Home() {
                 <br />Skudeneshavns fremtid
               </h2>
               <p className="text-white/45 leading-relaxed max-w-md mb-10">
-                Over 80 bedrifter og aktører har allerede valgt å investere
+                Mange bedrifter og aktører har allerede valgt å investere
                 i stedets utvikling. Medlemskap gir deg tilgang til
                 nettverk, arrangementer og direkte innflytelse.
               </p>

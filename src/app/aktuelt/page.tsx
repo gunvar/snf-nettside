@@ -8,6 +8,9 @@ import { NYHETER_QUERY } from "@/sanity/queries";
 export const metadata: Metadata = {
   title: "Aktuelt",
   description: "Nyheter og saker fra Skudeneshavn Næringsforening.",
+  openGraph: {
+    images: [{ url: "https://www.skudenesnf.no/images/skudeneshavn/audun_24.jpg", width: 1200, height: 630 }],
+  },
 };
 
 interface Nyhet {

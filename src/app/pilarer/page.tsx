@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Hva vi jobber med",
   description:
     "Tre strategiske pilarer: Rammevilkår, attraktivitet og levende sentrum.",
+  openGraph: {
+    images: [{ url: "https://www.skudenesnf.no/images/skudeneshavn/sak_08.jpg", width: 1200, height: 630 }],
+  },
 };
 
 const pilarData = [

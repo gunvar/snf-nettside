@@ -26,7 +26,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const nyhet = await client.fetch<Nyhet | null>(NYHET_SLUG_QUERY, { slug });
   if (!nyhet) return { title: "Ikke funnet" };
-  return { title: nyhet.tittel, description: nyhet.ingress };
+  const ogImages = nyhet.bilde?.asset
+    ? [{ url: urlFor(nyhet.bilde).width(1200).height(630).url(), width: 1200, height: 630 }]
+    : [{ url: "https://www.skudenesnf.no/images/hero/hero_01.jpg", width: 1200, height: 630 }];
+  return {
+    title: nyhet.tittel,
+    description: nyhet.ingress,
+    openGraph: { images: ogImages },
+  };
 }
 
 export default async function NyhetPage({

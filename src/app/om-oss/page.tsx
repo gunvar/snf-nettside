@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Om oss",
   description:
     "Skudeneshavn Næringsforening — hvem vi er, vår strategi og organisasjon.",
+  openGraph: {
+    images: [{ url: "https://www.skudenesnf.no/images/skudeneshavn/Audun_06.jpg", width: 1200, height: 630 }],
+  },
 };
 
 const styret = [

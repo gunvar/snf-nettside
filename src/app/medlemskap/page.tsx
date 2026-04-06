@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Medlemskap",
   description:
     "Bli medlem i Skudeneshavn Næringsforening — invester i stedets fremtid.",
+  openGraph: {
+    images: [{ url: "https://www.skudenesnf.no/images/skudeneshavn/audun_13.jpg", width: 1200, height: 630 }],
+  },
 };
 
 const kontingenter = [
