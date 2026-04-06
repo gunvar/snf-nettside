@@ -29,6 +29,8 @@ export const metadata: Metadata = {
     title: "Skudeneshavn Næringsforening",
     description:
       "Verdensledende verdiskaping i rammen av det gode liv.",
+    url: "https://www.skudenesnf.no",
+    siteName: "Skudeneshavn Næringsforening",
     locale: "nb_NO",
     type: "website",
     images: [
