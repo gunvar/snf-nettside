@@ -39,15 +39,7 @@ export default function Kontakt() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
             {/* Kontaktinfo */}
             <div>
-              <div className="mb-8">
-                <Image
-                  src="/images/logo/Skudeneshavn-Næringsforening.png"
-                  alt="Skudeneshavn Næringsforening logo"
-                  width={200}
-                  height={140}
-                  className="w-auto h-24 object-contain"
-                />
-              </div>
+              <div className="w-12 h-0.5 bg-gold mb-8" />
               <h2 className="font-serif text-3xl text-navy mb-8">
                 Ta kontakt
               </h2>

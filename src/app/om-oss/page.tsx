@@ -127,24 +127,13 @@ export default function OmOss() {
                 ))}
               </div>
             </div>
-            <div className="flex flex-col gap-8">
-              <div className="bg-sand-light p-10 flex items-center justify-center">
-                <Image
-                  src="/images/logo/Skudeneshavn-Næringsforening.png"
-                  alt="Skudeneshavn Næringsforening logo"
-                  width={280}
-                  height={200}
-                  className="w-auto h-40 object-contain"
-                />
-              </div>
-              <div className="relative overflow-hidden aspect-[16/9]">
-                <Image
-                  src="/images/skudeneshavn/sak_06.jpg"
-                  alt="Kafébrygge i Skudeneshavn"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+            <div className="relative overflow-hidden aspect-[4/3]">
+              <Image
+                src="/images/skudeneshavn/sak_06.jpg"
+                alt="Kafébrygge i Skudeneshavn"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
