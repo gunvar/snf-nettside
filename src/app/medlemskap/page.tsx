@@ -221,19 +221,24 @@ export default function Medlemskap() {
                       {k.beskrivelse}
                     </p>
                   </div>
-                  <div className="flex items-center gap-4 shrink-0">
+                  <div className="shrink-0 text-right">
                     <p className="text-navy font-serif text-xl">
                       {k.pris}
                     </p>
                     {k.navn === "Privatperson" && (
-                      <a
-                        href="https://qr.vipps.no/28/2/05/031/586326"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-[#ff5b24] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#e54d1d] transition-colors"
-                      >
-                        Betal med Vipps
-                      </a>
+                      <div className="mt-3">
+                        <a
+                          href="https://qr.vipps.no/28/2/05/031/586326"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block bg-[#ff5b24] text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-[#e54d1d] transition-colors"
+                        >
+                          Betal med Vipps
+                        </a>
+                        <p className="text-navy/30 text-xs mt-1.5">
+                          Vipps #586326
+                        </p>
+                      </div>
                     )}
                   </div>
                 </div>
