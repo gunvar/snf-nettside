@@ -22,6 +22,19 @@ interface Arrangement {
   maksAntall?: number;
   pris?: number;
   prisIkkeMedlem?: number;
+  vedlegg?: {
+    tittel?: string;
+    url: string;
+    filnavn?: string;
+    ext?: string;
+    storrelse?: number;
+  }[];
+}
+
+function formatStorrelse(bytes?: number): string | null {
+  if (!bytes) return null;
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} kB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 export async function generateMetadata({
@@ -118,6 +131,47 @@ export default async function ArrangementPage({
                 </p>
               )}
               {arr.innhold && <PortableText value={arr.innhold} />}
+
+              {arr.vedlegg && arr.vedlegg.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-navy/10">
+                  <h2 className="font-serif text-xl text-navy mb-4">Vedlegg</h2>
+                  <ul className="space-y-2">
+                    {arr.vedlegg
+                      .filter((v) => v?.url)
+                      .map((v, i) => {
+                        const navn =
+                          v.tittel || v.filnavn || "Last ned dokument";
+                        const meta = [
+                          v.ext?.toUpperCase(),
+                          formatStorrelse(v.storrelse),
+                        ]
+                          .filter(Boolean)
+                          .join(" · ");
+                        return (
+                          <li key={i}>
+                            <a
+                              href={v.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              download
+                              className="flex items-center gap-3 rounded-lg border border-navy/10 px-4 py-3 text-navy hover:bg-navy/5 transition-colors"
+                            >
+                              <span aria-hidden className="text-lg">
+                                📄
+                              </span>
+                              <span className="flex-1 font-medium">{navn}</span>
+                              {meta && (
+                                <span className="text-sm text-navy/50">
+                                  {meta}
+                                </span>
+                              )}
+                            </a>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Sidebar med detaljer */}

@@ -84,5 +84,12 @@ export const ARRANGEMENT_SLUG_QUERY = `*[_type == "arrangement" && slug.current 
   maksAntall,
   pris,
   prisIkkeMedlem,
-  stripePriceId
+  stripePriceId,
+  "vedlegg": vedlegg[]{
+    tittel,
+    "url": fil.asset->url,
+    "filnavn": fil.asset->originalFilename,
+    "ext": fil.asset->extension,
+    "storrelse": fil.asset->size
+  }
 }`;
