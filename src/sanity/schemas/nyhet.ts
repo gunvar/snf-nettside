@@ -58,6 +58,40 @@ export const nyhet = defineType({
       type: "image",
       options: { hotspot: true },
     }),
+    defineField({
+      name: "vedlegg",
+      title: "Vedlegg",
+      type: "array",
+      description: "Dokumenter til nedlasting (f.eks. PDF, referat, brosjyre)",
+      of: [
+        defineField({
+          name: "vedleggsfil",
+          title: "Vedlegg",
+          type: "object",
+          fields: [
+            defineField({
+              name: "fil",
+              title: "Fil",
+              type: "file",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "tittel",
+              title: "Visningsnavn",
+              type: "string",
+              description:
+                "Tekst som vises på lenken. Står dette tomt, brukes filnavnet.",
+            }),
+          ],
+          preview: {
+            select: { title: "tittel", fil: "fil.asset.originalFilename" },
+            prepare({ title, fil }) {
+              return { title: title || fil || "Vedlegg" };
+            },
+          },
+        }),
+      ],
+    }),
   ],
   preview: {
     select: { title: "tittel", subtitle: "dato", media: "bilde" },

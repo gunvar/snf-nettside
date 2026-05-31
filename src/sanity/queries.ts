@@ -26,7 +26,14 @@ export const NYHET_SLUG_QUERY = `*[_type == "nyhet" && slug.current == $slug][0]
   kategori,
   ingress,
   innhold,
-  bilde
+  bilde,
+  "vedlegg": vedlegg[]{
+    tittel,
+    "url": fil.asset->url,
+    "filnavn": fil.asset->originalFilename,
+    "ext": fil.asset->extension,
+    "storrelse": fil.asset->size
+  }
 }`;
 
 export const ARRANGEMENTER_QUERY = `*[_type == "arrangement" && dato >= now()] | order(dato asc) {
