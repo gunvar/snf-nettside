@@ -34,7 +34,7 @@ export default async function Page() {
     <Gnisten
       initial={status}
       fundDay={process.env.FYR_FUND_DAY || "2026-11-28T18:00:00+01:00"}
-      vippsNummer={process.env.NEXT_PUBLIC_FYR_VIPPSNUMMER || ""}
+      vippsNummer={process.env.NEXT_PUBLIC_FYR_VIPPSNUMMER || "586326"}
       epost={process.env.NEXT_PUBLIC_FYR_EPOST || "Skude.nf@gmail.com"}
       fbUrl={process.env.NEXT_PUBLIC_FYR_FB_URL || ""}
       simUrl={process.env.NEXT_PUBLIC_FYR_SIM_URL || ""}

@@ -705,6 +705,11 @@ function GiveSheet({
               {copied ? "Kopiert!" : "Kopier"}
             </button>
           </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/fyrverkeri2026/vipps-qr.png" alt="QR-kode til Vippsnummer 586326" width={104} height={104} style={{ borderRadius: 10, background: "#fff", flex: "0 0 auto" }} />
+            <span style={{ fontSize: 13, color: "#C4C8DA", lineHeight: 1.4 }}>Sitter du på PC? Skann QR-koden med mobilen for å åpne Vipps.</span>
+          </div>
           <p style={{ margin: 0, fontSize: 13, color: "#C4C8DA" }}>
             Gaven teller i summen så snart vi har registrert den. Navn og logo vises etter godkjenning.
           </p>
@@ -729,7 +734,7 @@ const QA: [string, (p: { goal: number; epost: string }) => React.ReactNode][] = 
   ["Kan bedriften betale med faktura?", ({ epost }) => <>Ja. Send en e-post til {epost} med bedriftsnavn, beløp og logo. Gaven og logoen kommer på siden når fakturaen er betalt.</>],
   ["Hva får bedriften igjen for gaven?", () => <>Gaver fra 5 000 kr gir logo på siden, og 10 000 kr gir dobbel størrelse. Alle gaver med navn kommer på lista over dem som har tent en gnist.</>],
   ["Hva skjer hvis vi samler inn mer enn målet?", ({ goal }) => <>Alt over {fmt(goal)} kr settes av til neste års nyttårsfyrverkeri.</>],
-  ["Hva om fyrverkeriet må avlyses?", () => <>[HVA SKJER MED PENGENE VED AVLYSNING]</>],
+  ["Hva om fyrverkeriet må avlyses?", () => <>Ved avlysning videreføres pengene til neste års fyrverkeri.</>],
   ["Kan jeg gi uten at navnet mitt vises?", () => <>Ja. Velg «Anonym», så blir gaven en stjerne uten navn.</>],
   ["Får jeg kvittering?", () => <>Ja, kvitteringen ligger i Vipps-appen.</>],
 ];
