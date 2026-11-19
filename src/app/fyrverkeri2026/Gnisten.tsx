@@ -188,8 +188,11 @@ export default function Gnisten({
     fw: g.tier >= 2 ? 700 : 500,
     col: g.tier >= 3 ? "#FFC86B" : "#F6F1E6",
   });
-  const names2 = fill(names, 10);
-  const logos2 = fill(logos, 6);
+  // Rullestripene gjentar lista for å gå i sømløs sløyfe – bare når det er nok innhold
+  const namesRoll = names.length >= 6;
+  const logosRoll = logos.length >= 3;
+  const names2 = namesRoll ? fill(names, 10) : names;
+  const logos2 = logosRoll ? fill(logos, 6) : logos;
 
   const copyNr = async () => {
     try {
@@ -569,8 +572,8 @@ export default function Gnisten({
           <div className="gn-mq" style={{ padding: "0 0 8px", overflow: "hidden" }}>
             {logos2.length > 0 && (
               <div style={{ overflow: "hidden", WebkitMaskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)", maskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)" }}>
-                <div className="gn-mqx" aria-label="Bedrifter som spleiser" style={{ padding: "2px 0" }}>
-                  {logos2.concat(logos2).map((l, i) => (
+                <div className={logosRoll ? "gn-mqx" : ""} aria-label="Bedrifter som spleiser" style={{ padding: "2px 0", ...(logosRoll ? {} : { display: "flex", gap: 10, justifyContent: "center" }) }}>
+                  {(logosRoll ? logos2.concat(logos2) : logos2).map((l, i) => (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       key={i}
@@ -594,8 +597,8 @@ export default function Gnisten({
             )}
             {names2.length > 0 && (
               <div style={{ overflow: "hidden", marginTop: 6, WebkitMaskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)", maskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)" }}>
-                <div className="gn-mqx gn-mqx2" aria-label="Givere" style={{ gap: 16 }}>
-                  {names2.concat(names2).map((n, i) => {
+                <div className={namesRoll ? "gn-mqx gn-mqx2" : ""} aria-label="Givere" style={{ gap: 16, ...(namesRoll ? {} : { display: "flex", flexWrap: "wrap", justifyContent: "center", padding: "0 16px" }) }}>
+                  {(namesRoll ? names2.concat(names2) : names2).map((n, i) => {
                     const s = nameStyle(n);
                     return (
                       <span key={i} aria-hidden={i >= names2.length} style={{ flex: "0 0 auto", display: "inline-flex", alignItems: "center", gap: 6, fontSize: s.fs, fontWeight: s.fw, color: s.col, whiteSpace: "nowrap" }}>
@@ -668,8 +671,8 @@ export default function Gnisten({
             {status.donors > 0 ? `${status.donors} ${status.donors === 1 ? "giver" : "givere"} så langt. Takk!` : "Bli den første som tenner en gnist."}
           </p>
           <div style={{ flex: "1 1 auto", minHeight: 0, overflow: "hidden", WebkitMaskImage: "linear-gradient(to bottom, transparent, #000 8%, #000 90%, transparent)", maskImage: "linear-gradient(to bottom, transparent, #000 8%, #000 90%, transparent)" }}>
-            <ul className={names2.length > 12 ? "gn-roll" : ""} style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {(names2.length > 12 ? names2.concat(names2) : names2).map((n, i) => {
+            <ul className={names.length > 12 ? "gn-roll" : ""} style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {(names.length > 12 ? names.concat(names) : names).map((n, i) => {
                 const s = nameStyle(n);
                 return (
                   <li key={i} style={{ padding: "7px 0", borderBottom: "1px solid rgba(255,255,255,.07)", fontSize: s.fs, fontWeight: s.fw, color: s.col }}>

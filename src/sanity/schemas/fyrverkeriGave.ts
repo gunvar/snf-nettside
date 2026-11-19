@@ -5,8 +5,16 @@ export const fyrverkeriGave = defineType({
   title: "Fyrverkeri-gave",
   type: "document",
   description:
-    "Én gave til nyttårsfyrverkeriet. Gaver med status «Betalt» teller i summen. Navn og logo vises først når «Godkjent» er huket av.",
+    "Én gave til nyttårsfyrverkeriet. Status må være «Betalt» for at gaven teller i summen. Navn og logo vises først når «Godkjent for visning» er slått på. Husk Publish.",
   fields: [
+    defineField({
+      name: "godkjent",
+      title: "✅ Godkjent for visning",
+      type: "boolean",
+      initialValue: false,
+      description:
+        "Slå på når navnet/logoen er sjekket. Uten dette teller beløpet, men gaven vises som en anonym stjerne uten navn.",
+    }),
     defineField({
       name: "ref",
       title: "Referanse",
@@ -75,14 +83,6 @@ export const fyrverkeriGave = defineType({
       title: "Logo",
       type: "image",
       description: "PNG, JPG eller WebP. Vises fra 5 000 kr.",
-    }),
-    defineField({
-      name: "godkjent",
-      title: "Godkjent for visning",
-      type: "boolean",
-      initialValue: false,
-      description:
-        "Huk av når navnet/logoen er sjekket. Uten dette vises gaven som en anonym stjerne.",
     }),
     defineField({ name: "opprettet", title: "Opprettet", type: "datetime" }),
     defineField({
