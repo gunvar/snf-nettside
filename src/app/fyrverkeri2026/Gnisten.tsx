@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { FyrStatus, Gift } from "@/lib/fyrverkeri";
+import { BedriftSheet, ShareSheet } from "./Ark";
 import "./gnisten.css";
 
 const AMOUNTS = [200, 500, 1000, 5000, 10000];
@@ -27,7 +28,7 @@ function pos(id: string) {
 }
 
 type Burst = { id: string; x: number; y: number; col: string; tag: string };
-type Sheet = "none" | "info" | "give";
+type Sheet = "none" | "info" | "give" | "bedrift" | "share";
 
 const RAYS =
   "M75 75 L75 12 M75 75 L106 21 M75 75 L129 44 M75 75 L138 75 M75 75 L129 106 M75 75 L106 129 M75 75 L75 138 M75 75 L44 129 M75 75 L21 106 M75 75 L12 75 M75 75 L21 44 M75 75 L44 21";
@@ -49,15 +50,19 @@ function fill<T>(list: T[], min: number): T[] {
 
 export default function Gnisten({
   initial,
+  demo,
   fundDay,
   vippsNummer,
+  vippsUrl,
   epost,
   fbUrl,
   simUrl,
 }: {
   initial: FyrStatus;
+  demo: boolean;
   fundDay: string;
   vippsNummer: string;
+  vippsUrl: string;
   epost: string;
   fbUrl: string;
   simUrl: string;
@@ -68,9 +73,12 @@ export default function Gnisten({
   const [sheet, setSheet] = useState<Sheet>("none");
   const [bursts, setBursts] = useState<Burst[]>([]);
   const [newId, setNewId] = useState<string | null>(null);
-  const [days] = useState<number>(() => {
+  const [days] = useState<number | null>(() => {
     const t = new Date(fundDay).getTime();
-    return isNaN(t) ? 0 : Math.ceil(Math.max(0, t - Date.now()) / 864e5);
+    if (isNaN(t)) return null;
+    const diff = t - Date.now();
+    if (diff < -6 * 3600e3) return null; // spleisedagen er over
+    return Math.ceil(Math.max(0, diff) / 864e5);
   });
   const [shown, setShown] = useState<Set<string>>(
     () => new Set(initial.gifts.map((g) => g.id))
@@ -101,8 +109,24 @@ export default function Gnisten({
     setTimeout(() => setBursts((b) => b.filter((x) => x.id !== g.id)), 4400);
   }, []);
 
+  // Esc lukker ark
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSheet("none");
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   // Poll for nye gaver
   useEffect(() => {
+    if (demo) {
+      const t = setTimeout(
+        () => launch({ id: "demo-ny", tier: 2, kind: "name", name: "Familien Austrheim" }),
+        400
+      );
+      return () => clearTimeout(t);
+    }
     let stop = false;
     const tick = async () => {
       if (document.hidden) return;
@@ -133,7 +157,7 @@ export default function Gnisten({
       stop = true;
       clearInterval(iv);
     };
-  }, [launch]);
+  }, [launch, demo]);
 
   const { raised, goal } = status;
   const p = Math.max(0, Math.min(1, raised / goal));
@@ -184,8 +208,9 @@ export default function Gnisten({
     border: `1px solid ${on ? "#FFC86B" : "rgba(255,255,255,.18)"}`,
     background: on ? "#FFC86B" : "rgba(255,255,255,.04)",
     color: on ? "#070B1C" : "#F6F1E6",
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 700,
+    letterSpacing: "-0.01em",
     whiteSpace: "nowrap" as const,
   });
   const seg = (on: boolean) => ({
@@ -201,12 +226,6 @@ export default function Gnisten({
     justifyContent: "center",
     gap: 8,
   });
-
-  const mailto = `mailto:${epost}?subject=${encodeURIComponent(
-    "Fyrverkeri 2026 – gave fra bedrift"
-  )}&body=${encodeURIComponent(
-    "Bedriftsnavn:\nOrg.nr.:\nBeløp:\nFakturaadresse / e-post:\n\n(Legg ved logo som PNG, JPG eller WebP.)"
-  )}`;
 
   return (
     <div className="gn">
@@ -293,12 +312,13 @@ export default function Gnisten({
               </p>
             )}
           </div>
-          <a
-            href={mailto}
-            style={{ marginTop: "auto", fontSize: 14, fontWeight: 700 }}
+          <button
+            type="button"
+            onClick={() => setSheet("bedrift")}
+            style={{ marginTop: "auto", minHeight: 48, borderRadius: 12, border: "1px solid rgba(255,200,107,.7)", background: "transparent", color: "#FFC86B", fontSize: 15, fontWeight: 700 }}
           >
             Få logoen deres her →
-          </a>
+          </button>
         </aside>
 
         <main className="gn-col">
@@ -330,11 +350,22 @@ export default function Gnisten({
             </Link>
             <button
               type="button"
+              onClick={() => setSheet("share")}
+              style={{ marginLeft: "auto", minHeight: 44, padding: "0 12px", border: "1px solid rgba(255,255,255,.3)", borderRadius: 999, background: "rgba(9,13,32,.45)", color: "#F6F1E6", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 15V3M7 8l5-5 5 5M5 13v7h14v-7" />
+              </svg>
+              Del
+            </button>
+            <button
+              type="button"
               onClick={() => setSheet("info")}
               aria-label="Om fyrverkeriet"
               style={{
                 width: 44,
                 height: 44,
+                marginLeft: 4,
                 marginRight: -10,
                 border: 0,
                 background: "transparent",
@@ -361,6 +392,11 @@ export default function Gnisten({
                 {fmt(raised)} kr
               </span>
               <span style={{ fontSize: 16, color: "#E2E4EE" }}>av {fmt(goal)} kr</span>
+              {demo && (
+                <span style={{ marginLeft: "auto", fontSize: 11, fontWeight: 700, color: "#FFC86B", border: "1px solid rgba(255,200,107,.5)", borderRadius: 999, padding: "3px 9px" }}>
+                  Eksempel
+                </span>
+              )}
             </div>
             <div
               role="progressbar"
@@ -442,7 +478,7 @@ export default function Gnisten({
                 </svg>
                 Julegrantenning lør. 28. nov
               </span>
-              {days > 0 && <span suppressHydrationWarning>{days} {days === 1 ? "dag" : "dager"} til spleisedagen</span>}
+              {days !== null && days > 0 && <span suppressHydrationWarning>{days} {days === 1 ? "dag" : "dager"} til spleisedagen</span>}
               {days === 0 && <span suppressHydrationWarning>I dag er spleisedagen!</span>}
               {fbUrl && (
                 <a href={fbUrl} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700 }}>
@@ -453,7 +489,7 @@ export default function Gnisten({
           </section>
 
           <div style={{ padding: "14px 22px 0", textAlign: "center" }}>
-            <h1 style={{ margin: 0, fontSize: 38, lineHeight: 1.04, color: "#FFF1D0" }}>
+            <h1 style={{ margin: 0, fontSize: "clamp(30px, 9.2vw, 38px)", lineHeight: 1.04, color: "#FFF1D0" }}>
               {lit ? (
                 <>Vi klarte det!<br />Vi ses over havna.</>
               ) : (
@@ -485,6 +521,13 @@ export default function Gnisten({
                 }}
               />
             ))}
+            {status.gifts.length === 0 && (
+              <p style={{ position: "absolute", left: 0, right: 0, top: "38%", margin: 0, textAlign: "center", fontSize: 14, color: "#E2E4EE", textShadow: "0 1px 8px rgba(7,11,28,.9)" }}>
+                Himmelen er mørk ennå.
+                <br />
+                <strong style={{ color: "#FFF1D0" }}>Tenn den første stjernen.</strong>
+              </p>
+            )}
             {bursts.map((b) => (
               <div key={b.id} aria-hidden="true" style={{ position: "absolute", left: `${b.x}%`, top: `${b.y}%`, width: 0, height: 0 }}>
                 <div className="gn-trail" />
@@ -580,7 +623,8 @@ export default function Gnisten({
               <div style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", gap: 6 }}>
                 {AMOUNTS.map((a) => (
                   <button key={a} type="button" aria-pressed={tier === a} onClick={() => setTier(a)} style={btn(tier === a)}>
-                    {fmt(a)} kr
+                    {fmt(a)}
+                    <span style={{ fontSize: 11, fontWeight: 600, marginLeft: 3 }}>kr</span>
                   </button>
                 ))}
               </div>
@@ -602,17 +646,14 @@ export default function Gnisten({
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </button>
-            <button
-              type="button"
-              onClick={() => setSheet("info")}
-              style={{ minHeight: 44, border: 0, borderTop: "1px solid rgba(255,255,255,.12)", background: "transparent", color: "#F6F1E6", display: "flex", alignItems: "center", gap: 10, padding: "8px 2px 0", textAlign: "left" }}
-            >
-              <span style={{ flex: "1 1 auto", fontSize: 15, fontWeight: 700 }}>Om fyrverkeriet</span>
-              <span style={{ fontSize: 12, color: "#C4C8DA" }}>Ca. 7 min · 731 effekter</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-            </button>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 6, borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: 8 }}>
+              <button type="button" onClick={() => setSheet("bedrift")} style={{ minHeight: 44, border: 0, borderRadius: 10, background: "rgba(255,200,107,.14)", color: "#FFC86B", fontSize: 14, fontWeight: 700 }}>
+                For bedrifter
+              </button>
+              <button type="button" onClick={() => setSheet("info")} style={{ minHeight: 44, border: 0, borderRadius: 10, background: "rgba(255,255,255,.06)", color: "#F6F1E6", fontSize: 14, fontWeight: 700 }}>
+                Om fyrverkeriet
+              </button>
+            </div>
           </form>
         </main>
 
@@ -642,24 +683,30 @@ export default function Gnisten({
       </div>
 
       {sheet !== "none" && (
-        <div className="gn-fade" role="dialog" aria-modal="true" aria-label={sheet === "info" ? "Om fyrverkeriet" : "Slik gir du"} style={{ position: "absolute", inset: 0, zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center" }}>
+        <div className="gn-fade" role="dialog" aria-modal="true" aria-label={{ info: "Om fyrverkeriet", give: "Slik gir du", bedrift: "Bedrift: logo og faktura", share: "Del siden" }[sheet]} style={{ position: "absolute", inset: 0, zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center" }}>
           <button type="button" aria-label="Lukk" onClick={() => setSheet("none")} style={{ position: "absolute", inset: 0, border: 0, background: "rgba(4,6,16,.66)" }} />
           <div className="gn-sheet" style={{ position: "relative", width: "100%", maxWidth: 500, boxSizing: "border-box", maxHeight: "90%", overflowY: "auto", background: "#111733", border: "1px solid rgba(255,255,255,.12)", borderBottom: 0, borderRadius: "22px 22px 0 0", padding: "12px 20px 22px" }}>
             <div aria-hidden="true" style={{ width: 40, height: 4, borderRadius: 999, background: "rgba(255,255,255,.25)", margin: "0 auto 10px" }} />
-            {sheet === "give" ? (
+            {sheet === "give" && (
               <GiveSheet
                 amount={tier}
                 anon={mode === "anon"}
                 vippsNummer={vippsNummer}
-                mailto={mailto}
-                epost={epost}
+                vippsUrl={vippsUrl}
                 copied={copied}
                 copyNr={copyNr}
+                openBedrift={() => setSheet("bedrift")}
+                openShare={() => setSheet("share")}
                 close={() => setSheet("none")}
               />
-            ) : (
-              <InfoSheet goal={goal} epost={epost} simUrl={simUrl} close={() => setSheet("none")} />
             )}
+            {sheet === "info" && (
+              <InfoSheet goal={goal} epost={epost} simUrl={simUrl} openBedrift={() => setSheet("bedrift")} close={() => setSheet("none")} />
+            )}
+            {sheet === "bedrift" && (
+              <BedriftSheet epost={epost} vippsNummer={vippsNummer} vippsUrl={vippsUrl} close={() => setSheet("none")} />
+            )}
+            {sheet === "share" && <ShareSheet close={() => setSheet("none")} />}
           </div>
         </div>
       )}
@@ -676,10 +723,10 @@ const closeBtn = (close: () => void) => (
 );
 
 function GiveSheet({
-  amount, anon, vippsNummer, mailto, epost, copied, copyNr, close,
+  amount, anon, vippsNummer, vippsUrl, copied, copyNr, openBedrift, openShare, close,
 }: {
-  amount: number; anon: boolean; vippsNummer: string; mailto: string; epost: string;
-  copied: boolean; copyNr: () => void; close: () => void;
+  amount: number; anon: boolean; vippsNummer: string; vippsUrl: string;
+  copied: boolean; copyNr: () => void; openBedrift: () => void; openShare: () => void; close: () => void;
 }) {
   const step = { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "#E2E4EE" } as const;
   const num = { flex: "0 0 28px", height: 28, borderRadius: 999, background: "#FFC86B", color: "#070B1C", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 } as const;
@@ -692,16 +739,21 @@ function GiveSheet({
       {vippsNummer ? (
         <>
           <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
-            <li style={step}><span style={num}>1</span><span>Åpne Vipps og velg <strong>Betal</strong>, deretter søk opp Vippsnummeret under.</span></li>
+            <li style={step}><span style={num}>1</span><span>Trykk <strong>Åpne Vipps</strong> under. Du kan også søke opp Vippsnummeret i appen.</span></li>
             <li style={step}><span style={num}>2</span><span>Legg inn <strong>{fmt(amount)} kr</strong>.</span></li>
             <li style={step}><span style={num}>3</span><span>{anon ? "Skriv «Fyrverkeri» i meldingen. Du blir en anonym stjerne." : "Skriv «Fyrverkeri» og navnet (eller bedriftsnavnet) du vil ha på lista i meldingen."}</span></li>
           </ol>
+          {vippsUrl && (
+            <a href={vippsUrl} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 56, borderRadius: 14, background: "#FF5B24", color: "#fff", textDecoration: "none", fontWeight: 800, fontSize: 19 }}>
+              Åpne Vipps
+            </a>
+          )}
           <div style={{ background: "rgba(255,255,255,.05)", borderRadius: 14, padding: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
             <div>
               <div style={{ fontSize: 13, color: "#C4C8DA" }}>Vippsnummer</div>
               <div style={{ fontFamily: "var(--font-dm-serif), serif", fontSize: 32, color: "#FFC86B" }}>{vippsNummer}</div>
             </div>
-            <button type="button" onClick={copyNr} style={{ minHeight: 48, padding: "0 18px", borderRadius: 12, border: 0, background: "#FF5B24", color: "#fff", fontWeight: 800, fontSize: 15 }}>
+            <button type="button" onClick={copyNr} style={{ minHeight: 48, padding: "0 18px", borderRadius: 12, border: "1px solid rgba(255,255,255,.3)", background: "transparent", color: "#F6F1E6", fontWeight: 700, fontSize: 15 }}>
               {copied ? "Kopiert!" : "Kopier"}
             </button>
           </div>
@@ -719,19 +771,20 @@ function GiveSheet({
           Betaling med Vipps åpner snart. Send oss en e-post så sørger vi for at du får gitt din gave.
         </p>
       )}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: 14, display: "flex", flexDirection: "column", gap: 8 }}>
-        <strong style={{ color: "#FFF1D0" }}>Bedrift som vil ha faktura og logo på siden?</strong>
-        <span style={{ fontSize: 14, color: "#E2E4EE" }}>Send bedriftsnavn, beløp og logo til {epost}.</span>
-        <a href={mailto} style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 48, border: "1px solid rgba(255,255,255,.25)", borderRadius: 12, color: "#F6F1E6", textDecoration: "none", fontWeight: 700 }}>
-          Send e-post
-        </a>
+      <div style={{ borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: 14, display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 8 }}>
+        <button type="button" onClick={openBedrift} style={{ minHeight: 48, borderRadius: 12, border: "1px solid rgba(255,200,107,.7)", background: "transparent", color: "#FFC86B", fontWeight: 700, fontSize: 14 }}>
+          Bedrift? Logo og faktura
+        </button>
+        <button type="button" onClick={openShare} style={{ minHeight: 48, borderRadius: 12, border: "1px solid rgba(255,255,255,.25)", background: "transparent", color: "#F6F1E6", fontWeight: 700, fontSize: 14 }}>
+          Del med venner
+        </button>
       </div>
     </div>
   );
 }
 
 const QA: [string, (p: { goal: number; epost: string }) => React.ReactNode][] = [
-  ["Kan bedriften betale med faktura?", ({ epost }) => <>Ja. Send en e-post til {epost} med bedriftsnavn, beløp og logo. Gaven og logoen kommer på siden når fakturaen er betalt.</>],
+  ["Kan bedriften betale med faktura?", ({ epost }) => <>Ja. Trykk «For bedrifter», fyll ut skjemaet og last opp logoen. Dere kan også sende e-post til {epost}. Gaven og logoen kommer på siden når fakturaen er betalt.</>],
   ["Hva får bedriften igjen for gaven?", () => <>Gaver fra 5 000 kr gir logo på siden, og 10 000 kr gir dobbel størrelse. Alle gaver med navn kommer på lista over dem som har tent en gnist.</>],
   ["Hva skjer hvis vi samler inn mer enn målet?", ({ goal }) => <>Alt over {fmt(goal)} kr settes av til neste års nyttårsfyrverkeri.</>],
   ["Hva om fyrverkeriet må avlyses?", () => <>Ved avlysning videreføres pengene til neste års fyrverkeri.</>],
@@ -739,7 +792,7 @@ const QA: [string, (p: { goal: number; epost: string }) => React.ReactNode][] = 
   ["Får jeg kvittering?", () => <>Ja, kvitteringen ligger i Vipps-appen.</>],
 ];
 
-function InfoSheet({ goal, epost, simUrl, close }: { goal: number; epost: string; simUrl: string; close: () => void }) {
+function InfoSheet({ goal, epost, simUrl, openBedrift, close }: { goal: number; epost: string; simUrl: string; openBedrift: () => void; close: () => void }) {
   const box = { background: "rgba(255,255,255,.05)", borderRadius: 12, padding: 12 } as const;
   const big = { fontFamily: "var(--font-dm-serif), serif", fontSize: 26, color: "#FFC86B" } as const;
   return (
@@ -769,6 +822,9 @@ function InfoSheet({ goal, epost, simUrl, close }: { goal: number; epost: string
           Se simulering av showet
         </a>
       )}
+      <button type="button" onClick={openBedrift} style={{ minHeight: 48, borderRadius: 12, border: "1px solid rgba(255,200,107,.7)", background: "transparent", color: "#FFC86B", fontWeight: 700, fontSize: 15 }}>
+        Bedrift? Meld inn gave med logo og faktura
+      </button>
       <h3 style={{ margin: "6px 0 0", fontSize: 22, color: "#FFF1D0" }}>Spørsmål og svar</h3>
       <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid rgba(255,255,255,.12)" }}>
         {QA.map(([q, a]) => (
