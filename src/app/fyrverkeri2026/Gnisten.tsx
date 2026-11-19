@@ -665,7 +665,7 @@ export default function Gnisten({
         >
           <h2 style={{ margin: 0, fontSize: 24 }}>Alle som har tent en gnist</h2>
           <p style={{ margin: 0, fontSize: 14, color: "#C4C8DA" }}>
-            {status.donors > 0 ? `${status.donors} givere så langt. Takk!` : "Bli den første som tenner en gnist."}
+            {status.donors > 0 ? `${status.donors} ${status.donors === 1 ? "giver" : "givere"} så langt. Takk!` : "Bli den første som tenner en gnist."}
           </p>
           <div style={{ flex: "1 1 auto", minHeight: 0, overflow: "hidden", WebkitMaskImage: "linear-gradient(to bottom, transparent, #000 8%, #000 90%, transparent)", maskImage: "linear-gradient(to bottom, transparent, #000 8%, #000 90%, transparent)" }}>
             <ul className={names2.length > 12 ? "gn-roll" : ""} style={{ listStyle: "none", margin: 0, padding: 0 }}>
