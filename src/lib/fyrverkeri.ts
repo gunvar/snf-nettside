@@ -30,7 +30,8 @@ export function tierOf(belop: number) {
   return 0;
 }
 
-const QUERY = `*[_type == "fyrverkeriGave" && status == "betalt"] | order(betaltTidspunkt asc, _createdAt asc) {
+// «meldt» = bedriften har meldt inn gaven, faktura er ikke betalt ennå. Teller og vises til styret tar den bort.
+const QUERY = `*[_type == "fyrverkeriGave" && status in ["betalt", "meldt"]] | order(betaltTidspunkt asc, _createdAt asc) {
   _id, belop, synlighet, godkjent, navn, logo
 }`;
 
@@ -57,7 +58,7 @@ export async function getStatus(): Promise<FyrStatus> {
     const navn = r.navn?.trim();
     let kind: Gift["kind"] = "anon";
     let logo: string | undefined;
-    if (r.godkjent && r.synlighet !== "anonym") {
+    if (r.godkjent !== false && r.synlighet !== "anonym") {
       if (r.synlighet === "logo" && r.logo?.asset && tier >= 3) {
         kind = "logo";
         logo = urlFor(r.logo).width(400).fit("max").url();

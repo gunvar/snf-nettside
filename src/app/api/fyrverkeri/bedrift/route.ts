@@ -6,6 +6,7 @@ import { projectId, dataset, apiVersion } from "@/sanity/env";
 export const dynamic = "force-dynamic";
 
 const MAX_LOGO = 2 * 1024 * 1024;
+const AUTO_MAX = 20000;
 const hits = new Map<string, number[]>();
 
 function limited(ip: string) {
@@ -82,17 +83,17 @@ export async function POST(request: NextRequest) {
   const ref = `fyr26-${randomUUID()}`;
   const now = new Date().toISOString();
   try {
-    // Gaven teller ikke og vises ikke før styret setter «Betalt» og «Godkjent» i Studio
+    // Vises og teller med en gang. Uvanlig store beløp venter på styret, så et falskt skjema ikke kan fylle målet.
     await client.create({
       _type: "fyrverkeriGave",
       ref,
       belop,
       kilde: betaling === "vipps" ? "kontant" : "faktura",
-      status: "opprettet",
+      status: belop <= AUTO_MAX ? "meldt" : "opprettet",
       synlighet: logo && belop >= 5000 ? "logo" : "navn",
       navn: bedrift,
       logo,
-      godkjent: false,
+      godkjent: true,
       opprettet: now,
     });
     // Kontaktinfo lagres i et eget dokument med punktum i id-en – slike er ikke offentlig lesbare

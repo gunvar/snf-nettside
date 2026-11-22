@@ -507,7 +507,7 @@ export default function Gnisten({
           </div>
 
           {/* Himmelen */}
-          <div style={{ position: "relative", flex: "1 1 0", minHeight: 90 }}>
+          <div style={{ position: "relative", flex: "1 1 0", minHeight: 16 }}>
             {stars.map((s) => (
               <span
                 key={s.g.id}
@@ -582,7 +582,7 @@ export default function Gnisten({
                       aria-hidden={i >= logos2.length}
                       style={{
                         flex: "0 0 auto",
-                        height: l.tier >= 4 ? 40 : 30,
+                        height: l.tier >= 4 ? 60 : 40,
                         padding: "4px 10px",
                         borderRadius: 8,
                         background: "rgba(255,255,255,.92)",
@@ -766,7 +766,7 @@ function GiveSheet({
             <span style={{ fontSize: 13, color: "#C4C8DA", lineHeight: 1.4 }}>Sitter du på PC? Skann QR-koden med mobilen for å åpne Vipps.</span>
           </div>
           <p style={{ margin: 0, fontSize: 13, color: "#C4C8DA" }}>
-            Gaven teller i summen så snart vi har registrert den. Navn og logo vises etter godkjenning.
+            Gaven og navnet ditt kommer på siden så snart vi har registrert betalingen.
           </p>
         </>
       ) : (
@@ -787,7 +787,7 @@ function GiveSheet({
 }
 
 const QA: [string, (p: { goal: number; epost: string }) => React.ReactNode][] = [
-  ["Kan bedriften betale med faktura?", ({ epost }) => <>Ja. Trykk «For bedrifter», fyll ut skjemaet og last opp logoen. Dere kan også sende e-post til {epost}. Gaven og logoen kommer på siden når fakturaen er betalt.</>],
+  ["Kan bedriften betale med faktura?", ({ epost }) => <>Ja. Trykk «For bedrifter», fyll ut skjemaet og last opp logoen. Dere kan også sende e-post til {epost}. Bedriften kommer på siden med en gang skjemaet er sendt.</>],
   ["Hva får bedriften igjen for gaven?", () => <>Gaver fra 5 000 kr gir logo på siden, og 10 000 kr gir dobbel størrelse. Alle gaver med navn kommer på lista over dem som har tent en gnist.</>],
   ["Hva skjer hvis vi samler inn mer enn målet?", ({ goal }) => <>Alt over {fmt(goal)} kr settes av til neste års nyttårsfyrverkeri.</>],
   ["Hva om fyrverkeriet må avlyses?", () => <>Ved avlysning videreføres pengene til neste års fyrverkeri.</>],

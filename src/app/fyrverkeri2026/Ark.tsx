@@ -97,8 +97,8 @@ export function BedriftSheet({
         <Head title="Takk for at dere spleiser!" close={close} />
         <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#E2E4EE" }}>
           {betaling === "faktura"
-            ? "Vi sender faktura til e-postadressen dere oppga. Når den er betalt, teller gaven i summen og logoen kommer på siden."
-            : `Betal ${fmt(sum)} kr til Vippsnummer ${vippsNummer}, og skriv bedriftsnavnet i meldingen. Når vi har registrert betalingen, teller gaven i summen og logoen kommer på siden.`}
+            ? `Vi sender faktura til e-postadressen dere oppga. ${sum <= 20000 ? "Bedriften kommer på siden om et øyeblikk." : "Bedriften kommer på siden så snart vi har behandlet gaven."}`
+            : `Betal ${fmt(sum)} kr til Vippsnummer ${vippsNummer}, og skriv bedriftsnavnet i meldingen. ${sum <= 20000 ? "Bedriften kommer på siden om et øyeblikk." : "Bedriften kommer på siden så snart vi har registrert betalingen."}`}
         </p>
         {betaling === "vipps" && (
           <a href={vippsUrl} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 54, borderRadius: 14, background: "#FF5B24", color: "#fff", textDecoration: "none", fontWeight: 800, fontSize: 18 }}>
@@ -187,7 +187,7 @@ export function BedriftSheet({
         {state === "sending" ? "Sender …" : `Meld inn ${sum > 0 ? fmt(sum) + " kr" : "gaven"}`}
       </button>
       <p style={{ margin: 0, fontSize: 13, lineHeight: 1.45, color: "#C4C8DA" }}>
-        Bedriftsnavn og logo vises offentlig på siden når gaven er betalt og godkjent. Kontaktopplysningene brukes bare til faktura og oppfølging av gaven.
+        Bedriftsnavn og logo vises offentlig på siden. Kontaktopplysningene brukes bare til faktura og oppfølging av gaven.
       </p>
     </form>
   );

@@ -5,7 +5,7 @@ export const fyrverkeriHenvendelse = defineType({
   title: "Fyrverkeri – henvendelse fra bedrift",
   type: "document",
   description:
-    "Kommer fra bedriftsskjemaet på kampanjesiden. Send faktura (eller sjekk Vipps), og sett deretter den tilhørende gaven til «Betalt» og «Godkjent».",
+    "Kommer fra bedriftsskjemaet på kampanjesiden. Gaver opp til 20 000 kr vises med en gang. Send faktura (eller sjekk Vipps) og sett gaven til «Betalt». Betaler de ikke: sett den til «Avbrutt». Større gaver må settes til «Betalt» før de vises.",
   fields: [
     defineField({ name: "bedrift", title: "Bedrift", type: "string" }),
     defineField({ name: "belop", title: "Beløp (kr)", type: "number" }),

@@ -5,15 +5,15 @@ export const fyrverkeriGave = defineType({
   title: "Fyrverkeri-gave",
   type: "document",
   description:
-    "Én gave til nyttårsfyrverkeriet. Status må være «Betalt» for at gaven teller i summen. Navn og logo vises først når «Godkjent for visning» er slått på. Husk Publish.",
+    "Én gave til nyttårsfyrverkeriet. «Betalt» og «Meldt inn» teller i summen og vises på siden. Har noen ikke betalt: sett Status til «Avbrutt». Husk Publish.",
   fields: [
     defineField({
       name: "godkjent",
-      title: "✅ Godkjent for visning",
+      title: "Vis navn/logo på siden",
       type: "boolean",
-      initialValue: false,
+      initialValue: true,
       description:
-        "Slå på når navnet/logoen er sjekket. Uten dette teller beløpet, men gaven vises som en anonym stjerne uten navn.",
+        "Står på som standard. Slå av for å skjule navnet/logoen. Beløpet teller fortsatt, som en anonym stjerne.",
     }),
     defineField({
       name: "ref",
@@ -49,7 +49,8 @@ export const fyrverkeriGave = defineType({
       initialValue: "betalt",
       options: {
         list: [
-          { title: "Opprettet", value: "opprettet" },
+          { title: "Meldt inn (vises, ikke betalt ennå)", value: "meldt" },
+          { title: "Opprettet (vises ikke)", value: "opprettet" },
           { title: "Autorisert", value: "autorisert" },
           { title: "Betalt", value: "betalt" },
           { title: "Avbrutt", value: "avbrutt" },
@@ -103,7 +104,7 @@ export const fyrverkeriGave = defineType({
     prepare({ navn, belop, status, godkjent, media }) {
       return {
         title: `${(belop ?? 0).toLocaleString("nb-NO")} kr – ${navn || "Anonym"}`,
-        subtitle: `${status}${godkjent ? " · godkjent" : " · ikke godkjent"}`,
+        subtitle: `${status}${godkjent === false ? " · navn skjult" : ""}`,
         media,
       };
     },

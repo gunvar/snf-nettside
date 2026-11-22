@@ -7,8 +7,8 @@
 .gn :focus-visible{ outline:2px solid var(--gn-gold); outline-offset:2px; }
 .gn-wrap{ position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,1fr); justify-items:center; min-height:100svh; }
 .gn-side{ display:none; }
-.gn-col{ width:100%; max-width:500px; height:100svh; min-height:640px; display:flex; flex-direction:column; }
-.gn-mq{ display:block; }
+.gn-col{ width:100%; max-width:500px; min-height:max(100svh,640px); display:flex; flex-direction:column; }
+.gn-mq{ display:block; flex:0 0 auto; }
 @media (min-width:1000px){
   .gn-wrap{ grid-template-columns:minmax(220px,1fr) minmax(400px,500px) minmax(220px,1fr); gap:40px; padding:0 40px; align-items:center; }
   .gn-side{ display:flex; } .gn-mq{ display:none; }
