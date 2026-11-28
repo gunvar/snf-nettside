@@ -193,6 +193,120 @@ export function BedriftSheet({
   );
 }
 
+const REG_AMOUNTS = [200, 500, 1000, 5000, 10000];
+
+/** Giveren melder selv inn Vipps-gaven, så navnet kommer på lista med en gang. */
+export function RegForm({
+  defaultAmount,
+  defaultAnon,
+  onDone,
+}: {
+  defaultAmount: number;
+  defaultAnon: boolean;
+  onDone: () => void;
+}) {
+  const [belop, setBelop] = useState<number | "annet">(
+    REG_AMOUNTS.includes(defaultAmount) ? defaultAmount : "annet"
+  );
+  const [annet, setAnnet] = useState(REG_AMOUNTS.includes(defaultAmount) ? "" : String(defaultAmount));
+  const [anon, setAnon] = useState(defaultAnon);
+  const [navn, setNavn] = useState("");
+  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [msg, setMsg] = useState("");
+  const sum = belop === "annet" ? Math.round(Number(annet)) || 0 : belop;
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!anon && navn.trim().length < 2) {
+      setState("error");
+      setMsg("Skriv navnet ditt, eller velg anonym.");
+      return;
+    }
+    const hp = new FormData(e.currentTarget).get("nettside");
+    setState("sending");
+    setMsg("");
+    try {
+      const r = await fetch("/api/fyrverkeri/registrer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ belop: sum, navn: navn.trim(), anonym: anon, nettside: hp || "" }),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j.ok) {
+        setState("done");
+        onDone();
+      } else {
+        setState("error");
+        setMsg(j.message || "Noe gikk galt. Prøv igjen.");
+      }
+    } catch {
+      setState("error");
+      setMsg("Fikk ikke kontakt med serveren. Prøv igjen.");
+    }
+  }
+
+  if (state === "done") {
+    return (
+      <div style={{ background: "rgba(255,200,107,.12)", border: "1px solid rgba(255,200,107,.5)", borderRadius: 14, padding: 16, fontSize: 15, lineHeight: 1.5, color: "#FFF1D0" }}>
+        <strong>Takk{!anon && navn.trim() ? `, ${navn.trim()}` : ""}!</strong> Stjernen din tennes på himmelen om et øyeblikk.
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div role="group" aria-label="Beløp du vippset" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 6 }}>
+        {REG_AMOUNTS.map((a) => (
+          <button key={a} type="button" aria-pressed={belop === a} onClick={() => setBelop(a)} style={{ ...pick(belop === a), minHeight: 42, fontSize: 14 }}>
+            {fmt(a)} kr
+          </button>
+        ))}
+        <button type="button" aria-pressed={belop === "annet"} onClick={() => setBelop("annet")} style={{ ...pick(belop === "annet"), minHeight: 42, fontSize: 14 }}>
+          Annet
+        </button>
+      </div>
+      {belop === "annet" && (
+        <label style={label}>
+          Beløp i kroner
+          <input type="number" inputMode="numeric" min={50} max={10000} required value={annet} onChange={(e) => setAnnet(e.target.value)} placeholder="F.eks. 300" style={input} />
+        </label>
+      )}
+      {!anon && (
+        <label style={label}>
+          Navnet som skal stå på lista
+          <input value={navn} onChange={(e) => setNavn(e.target.value)} maxLength={40} autoComplete="name" placeholder="F.eks. Familien Hansen" style={input} />
+        </label>
+      )}
+      <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, color: "#E2E4EE", minHeight: 32 }}>
+        <input type="checkbox" checked={anon} onChange={(e) => setAnon(e.target.checked)} style={{ width: 20, height: 20, accentColor: "#FFC86B" }} />
+        Gi anonymt (bare en stjerne, uten navn)
+      </label>
+      <input name="nettside" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: -9999, width: 1, height: 1, opacity: 0 }} />
+      {state === "error" && (
+        <p role="alert" style={{ margin: 0, fontSize: 14, color: "#FFB4A0" }}>{msg}</p>
+      )}
+      <button type="submit" disabled={state === "sending" || sum <= 0} style={{ minHeight: 54, border: 0, borderRadius: 14, background: "#FFC86B", color: "#070B1C", fontSize: 17, fontWeight: 800, opacity: state === "sending" || sum <= 0 ? 0.6 : 1 }}>
+        {state === "sending" ? "Sender …" : `Sett meg på lista${sum > 0 ? " – " + fmt(sum) + " kr" : ""}`}
+      </button>
+    </form>
+  );
+}
+
+export function RegSheet({ defaultAmount, defaultAnon, onDone, close }: { defaultAmount: number; defaultAnon: boolean; onDone: () => void; close: () => void }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <Head title="Har du vippset?" close={close} />
+      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#E2E4EE" }}>
+        Velg beløpet du vippset, så tennes stjernen din og navnet kommer på lista med en gang.
+      </p>
+      <RegForm defaultAmount={defaultAmount} defaultAnon={defaultAnon} onDone={onDone} />
+      <p style={{ margin: 0, fontSize: 13, lineHeight: 1.45, color: "#C4C8DA" }}>
+        Vi sjekker registreringene mot Vipps i etterkant.
+      </p>
+    </div>
+  );
+}
+
 export function ShareSheet({ close }: { close: () => void }) {
   const [copied, setCopied] = useState(false);
   const canShare = typeof navigator !== "undefined" && typeof navigator.share === "function";

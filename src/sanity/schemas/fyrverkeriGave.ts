@@ -36,6 +36,7 @@ export const fyrverkeriGave = defineType({
       options: {
         list: [
           { title: "Vipps", value: "vipps" },
+          { title: "Vipps – registrert av giveren (sjekk mot Vipps)", value: "selvreg" },
           { title: "Faktura", value: "faktura" },
           { title: "Kontant / manuell Vipps", value: "kontant" },
         ],

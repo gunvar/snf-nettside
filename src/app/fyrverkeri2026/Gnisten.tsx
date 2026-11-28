@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { FyrStatus, Gift } from "@/lib/fyrverkeri";
-import { BedriftSheet, ShareSheet } from "./Ark";
+import { BedriftSheet, RegForm, RegSheet, ShareSheet } from "./Ark";
 import "./gnisten.css";
 
 const AMOUNTS = [200, 500, 1000, 5000, 10000];
@@ -28,7 +28,7 @@ function pos(id: string) {
 }
 
 type Burst = { id: string; x: number; y: number; col: string; tag: string };
-type Sheet = "none" | "info" | "give" | "bedrift" | "share";
+type Sheet = "none" | "info" | "give" | "bedrift" | "share" | "reg";
 
 const RAYS =
   "M75 75 L75 12 M75 75 L106 21 M75 75 L129 44 M75 75 L138 75 M75 75 L129 106 M75 75 L106 129 M75 75 L75 138 M75 75 L44 129 M75 75 L21 106 M75 75 L12 75 M75 75 L21 44 M75 75 L44 21";
@@ -78,6 +78,7 @@ export default function Gnisten({
     if (isNaN(t)) return null;
     const diff = t - Date.now();
     if (diff < -6 * 3600e3) return null; // spleisedagen er over
+    if (new Date(t).toDateString() === new Date().toDateString()) return 0; // i dag
     return Math.ceil(Math.max(0, diff) / 864e5);
   });
   const [shown, setShown] = useState<Set<string>>(
@@ -85,6 +86,7 @@ export default function Gnisten({
   );
   const seen = useRef<Set<string>>(new Set(initial.gifts.map((g) => g.id)));
   const [copied, setCopied] = useState(false);
+  const tickRef = useRef<(() => void) | null>(null);
 
   const launch = useCallback((g: Gift) => {
     const p = pos(g.id);
@@ -152,6 +154,7 @@ export default function Gnisten({
         /* prøver igjen neste runde */
       }
     };
+    tickRef.current = tick;
     const iv = setInterval(tick, 12000);
     return () => {
       stop = true;
@@ -653,8 +656,8 @@ export default function Gnisten({
               <button type="button" onClick={() => setSheet("bedrift")} style={{ minHeight: 44, border: 0, borderRadius: 10, background: "rgba(255,200,107,.14)", color: "#FFC86B", fontSize: 14, fontWeight: 700 }}>
                 For bedrifter
               </button>
-              <button type="button" onClick={() => setSheet("info")} style={{ minHeight: 44, border: 0, borderRadius: 10, background: "rgba(255,255,255,.06)", color: "#F6F1E6", fontSize: 14, fontWeight: 700 }}>
-                Om fyrverkeriet
+              <button type="button" onClick={() => setSheet("reg")} style={{ minHeight: 44, border: 0, borderRadius: 10, background: "rgba(255,255,255,.08)", color: "#F6F1E6", fontSize: 14, fontWeight: 700 }}>
+                Jeg har vippset ✓
               </button>
             </div>
           </form>
@@ -686,7 +689,7 @@ export default function Gnisten({
       </div>
 
       {sheet !== "none" && (
-        <div className="gn-fade" role="dialog" aria-modal="true" aria-label={{ info: "Om fyrverkeriet", give: "Slik gir du", bedrift: "Bedrift: logo og faktura", share: "Del siden" }[sheet]} style={{ position: "absolute", inset: 0, zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center" }}>
+        <div className="gn-fade" role="dialog" aria-modal="true" aria-label={{ info: "Om fyrverkeriet", give: "Slik gir du", bedrift: "Bedrift: logo og faktura", share: "Del siden", reg: "Sett deg på lista" }[sheet]} style={{ position: "absolute", inset: 0, zIndex: 10, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center" }}>
           <button type="button" aria-label="Lukk" onClick={() => setSheet("none")} style={{ position: "absolute", inset: 0, border: 0, background: "rgba(4,6,16,.66)" }} />
           <div className="gn-sheet" style={{ position: "relative", width: "100%", maxWidth: 500, boxSizing: "border-box", maxHeight: "90%", overflowY: "auto", background: "#111733", border: "1px solid rgba(255,255,255,.12)", borderBottom: 0, borderRadius: "22px 22px 0 0", padding: "12px 20px 22px" }}>
             <div aria-hidden="true" style={{ width: 40, height: 4, borderRadius: 999, background: "rgba(255,255,255,.25)", margin: "0 auto 10px" }} />
@@ -700,6 +703,7 @@ export default function Gnisten({
                 copyNr={copyNr}
                 openBedrift={() => setSheet("bedrift")}
                 openShare={() => setSheet("share")}
+                onRegistered={() => tickRef.current?.()}
                 close={() => setSheet("none")}
               />
             )}
@@ -710,6 +714,9 @@ export default function Gnisten({
               <BedriftSheet epost={epost} vippsNummer={vippsNummer} vippsUrl={vippsUrl} close={() => setSheet("none")} />
             )}
             {sheet === "share" && <ShareSheet close={() => setSheet("none")} />}
+            {sheet === "reg" && (
+              <RegSheet defaultAmount={tier} defaultAnon={mode === "anon"} onDone={() => tickRef.current?.()} close={() => setSheet("none")} />
+            )}
           </div>
         </div>
       )}
@@ -726,10 +733,10 @@ const closeBtn = (close: () => void) => (
 );
 
 function GiveSheet({
-  amount, anon, vippsNummer, vippsUrl, copied, copyNr, openBedrift, openShare, close,
+  amount, anon, vippsNummer, vippsUrl, copied, copyNr, openBedrift, openShare, onRegistered, close,
 }: {
   amount: number; anon: boolean; vippsNummer: string; vippsUrl: string;
-  copied: boolean; copyNr: () => void; openBedrift: () => void; openShare: () => void; close: () => void;
+  copied: boolean; copyNr: () => void; openBedrift: () => void; openShare: () => void; onRegistered: () => void; close: () => void;
 }) {
   const step = { display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, lineHeight: 1.45, color: "#E2E4EE" } as const;
   const num = { flex: "0 0 28px", height: 28, borderRadius: 999, background: "#FFC86B", color: "#070B1C", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 } as const;
@@ -744,7 +751,8 @@ function GiveSheet({
           <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
             <li style={step}><span style={num}>1</span><span>Trykk <strong>Åpne Vipps</strong> under. Du kan også søke opp Vippsnummeret i appen.</span></li>
             <li style={step}><span style={num}>2</span><span>Legg inn <strong>{fmt(amount)} kr</strong>.</span></li>
-            <li style={step}><span style={num}>3</span><span>{anon ? "Skriv «Fyrverkeri» i meldingen. Du blir en anonym stjerne." : "Skriv «Fyrverkeri» og navnet (eller bedriftsnavnet) du vil ha på lista i meldingen."}</span></li>
+            <li style={step}><span style={num}>3</span><span>Skriv «Fyrverkeri» i meldingen og betal.</span></li>
+            <li style={step}><span style={num}>4</span><span>Kom tilbake hit og trykk <strong>Jeg har vippset</strong> nederst, så tennes stjernen din.</span></li>
           </ol>
           {vippsUrl && (
             <a href={vippsUrl} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 56, borderRadius: 14, background: "#FF5B24", color: "#fff", textDecoration: "none", fontWeight: 800, fontSize: 19 }}>
@@ -765,9 +773,11 @@ function GiveSheet({
             <img src="/fyrverkeri2026/vipps-qr.png" alt="QR-kode til Vippsnummer 586326" width={104} height={104} style={{ borderRadius: 10, background: "#fff", flex: "0 0 auto" }} />
             <span style={{ fontSize: 13, color: "#C4C8DA", lineHeight: 1.4 }}>Sitter du på PC? Skann QR-koden med mobilen for å åpne Vipps.</span>
           </div>
-          <p style={{ margin: 0, fontSize: 13, color: "#C4C8DA" }}>
-            Gaven og navnet ditt kommer på siden så snart vi har registrert betalingen.
-          </p>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+            <h3 style={{ margin: 0, fontSize: 22, color: "#FFF1D0" }}>Har du vippset?</h3>
+            <RegForm defaultAmount={amount} defaultAnon={anon} onDone={onRegistered} />
+            <p style={{ margin: 0, fontSize: 13, color: "#C4C8DA" }}>Vi sjekker registreringene mot Vipps i etterkant.</p>
+          </div>
         </>
       ) : (
         <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "#E2E4EE" }}>
