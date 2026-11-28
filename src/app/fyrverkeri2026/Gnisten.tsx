@@ -237,7 +237,7 @@ export default function Gnisten({
     <div className="gn">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/fyrverkeri2026/havn-natt.jpg"
+        src="/fyrverkeri2026/fyrverkeri_2024.jpg"
         alt=""
         style={{
           position: "absolute",
@@ -245,7 +245,7 @@ export default function Gnisten({
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          objectPosition: "48% 45%",
+          objectPosition: "45% 40%",
         }}
       />
       <div
@@ -254,7 +254,7 @@ export default function Gnisten({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(7,11,28,.78) 0%, rgba(7,11,28,.15) 38%, rgba(7,11,28,.1) 55%, rgba(7,11,28,.85) 100%)",
+            "linear-gradient(to bottom, rgba(7,11,28,.88) 0%, rgba(7,11,28,.62) 32%, rgba(7,11,28,.5) 55%, rgba(7,11,28,.9) 100%)",
         }}
       />
 

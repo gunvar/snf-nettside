@@ -42,16 +42,16 @@ export default function FyrverkeriPromo() {
     >
       <div className="relative aspect-[16/8] overflow-hidden">
         <Image
-          src="/fyrverkeri2026/havn-natt.jpg"
-          alt="Havna i Skudeneshavn en vinterkveld"
+          src="/fyrverkeri2026/fyrverkeri_2024.jpg"
+          alt="Fyrverkeri over havna i Skudeneshavn nyttårsaften 2024"
           fill
           sizes="384px"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          style={{ objectPosition: "48% 45%" }}
+          style={{ objectPosition: "50% 15%" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-transparent to-transparent" />
         <span className="absolute left-4 top-4 bg-gold px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-navy">
-          Nyttårsaften over havna
+          Nyttårsaften i Skudeneshavn
         </span>
       </div>
       <div className="px-5 pb-5 pt-1">

@@ -52,7 +52,7 @@ export default async function Page({
       vippsNummer={process.env.NEXT_PUBLIC_FYR_VIPPSNUMMER || "586326"}
       vippsUrl={process.env.NEXT_PUBLIC_FYR_VIPPS_URL || "https://qr.vipps.no/vp/nWi_gXvjp"}
       epost={process.env.NEXT_PUBLIC_FYR_EPOST || "Skude.nf@gmail.com"}
-      fbUrl={process.env.NEXT_PUBLIC_FYR_FB_URL || ""}
+      fbUrl={process.env.NEXT_PUBLIC_FYR_FB_URL || "https://www.facebook.com/events/4652609771680936"}
       simUrl={process.env.NEXT_PUBLIC_FYR_SIM_URL || ""}
     />
   );
