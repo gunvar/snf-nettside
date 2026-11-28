@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { fyrPromoAktiv } from "./FyrverkeriPromo";
 
 const navigation = [
   { name: "Om oss", href: "/om-oss" },
@@ -16,8 +17,11 @@ const navigation = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [fyr, setFyr] = useState(true);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- midlertidig menylenke
+    if (!fyrPromoAktiv()) setFyr(false);
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -64,6 +68,14 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
+            {fyr && (
+              <Link
+                href="/fyrverkeri2026"
+                className="ml-2 border border-gold/50 px-3.5 py-1.5 text-[13px] text-gold hover:border-gold hover:text-gold-light transition-colors tracking-wide"
+              >
+                Fyrverkeri
+              </Link>
+            )}
             <Link
               href="/medlemskap"
               className="ml-6 bg-gold text-navy px-5 py-2 text-[12px] font-semibold uppercase tracking-wider hover:bg-gold-light transition-colors"
@@ -95,6 +107,15 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="lg:hidden pb-8 pt-4 animate-fade-in">
             <div className="flex flex-col gap-1">
+              {fyr && (
+                <Link
+                  href="/fyrverkeri2026"
+                  className="px-2 py-3 text-[15px] text-gold hover:text-gold-light border-b border-white/5 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Spleis på nyttårsfyrverkeriet &rarr;
+                </Link>
+              )}
               {navigation.map((item) => (
                 <Link
                   key={item.name}

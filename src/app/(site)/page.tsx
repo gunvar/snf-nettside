@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
+import FyrverkeriPromo from "@/components/FyrverkeriPromo";
 import { ARRANGEMENTER_SISTE_QUERY, NYHETER_SISTE_QUERY } from "@/sanity/queries";
 
 interface SisteArrangement {
@@ -88,6 +89,9 @@ export default async function Home() {
               </Link>
             </div>
           </div>
+
+          {/* Midlertidig: spleis på nyttårsfyrverkeriet */}
+          <FyrverkeriPromo />
 
           {/* Scroll indicator */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:block">
